@@ -69,22 +69,22 @@ void MainWindow::analizar(){
                     estado = 7;             // Saltamos al estado 7
                     char caracter = cadena[indice];      // Guardamos el caracter actual
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "opAsignacion"; // Este lexema es un operador asignacion =
+                    token = "=";             // Este lexema es un operador asignacion =
                 }else if(cadena[indice] == '<'){                                //
                     estado = 7;             // Saltamos al estado 7
                     char caracter = cadena[indice];      // Guardamos el caracter actual
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "opMayor";      // Este lexema es un operador mayor que
+                    token = "opRelac";      // Este lexema es un operador mayor que
                 }else if(cadena[indice] == '>'){                                //
                     estado = 7;             // Saltamos al estado 7
                     char caracter = cadena[indice];      // Guardamos el caracter actual
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "opMenor";      // Este lexema es un operador menor que
+                    token = "opRelac";      // Este lexema es un operador menor que
                 }else if(isdigit(cadena[indice])){                             //
                     estado = 18;            // Saltamos al estado 19
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "constante";    // Este lexema es
+                    token = "entero";       // Este lexema es
                 }else if(cadena[indice] == '('){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
@@ -168,7 +168,7 @@ void MainWindow::analizar(){
                     estado = 20;
                     char caracter = cadena[indice];
                     lexema += caracter;
-                    token = "opRelacional";
+                    token = "opRelac";
                     ++indice;
                 }else{
                     estado = 20;
@@ -178,7 +178,7 @@ void MainWindow::analizar(){
                     estado = 18;
                     char caracter = cadena[indice];
                     lexema += caracter;
-                    token = "constante";
+                    token = "entero";
                     ++indice;
                 }else if(cadena[indice] == '.'){
                     estado = 19;
