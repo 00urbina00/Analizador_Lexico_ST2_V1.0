@@ -20,6 +20,10 @@
 *.mod
 *.smod
 
+# QT files
+*.ts
+*.user
+
 # Compiled Static libraries
 *.lai
 *.la
