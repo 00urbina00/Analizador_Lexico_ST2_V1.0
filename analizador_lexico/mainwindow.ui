@@ -189,7 +189,7 @@ QPushButton:hover{
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="pte2">
+              <widget class="QPlainTextEdit" name="pte_segundo">
                <property name="maximumSize">
                 <size>
                  <width>500</width>
