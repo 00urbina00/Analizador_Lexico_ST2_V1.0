@@ -29,6 +29,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::analizar(){
     QString  plain_text = ui->pte_codigo->toPlainText();
     std::string cadena = plain_text.toStdString();
+    cadena += "$";
     componentes.clear();
     if(cadena.empty()){
         std::cout<<"La cadena esta vacia..."<<std::endl;
