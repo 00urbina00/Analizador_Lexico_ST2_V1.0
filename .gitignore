@@ -23,6 +23,7 @@
 # QT files
 *.ts
 *.user
+*.txt
 
 # Compiled Static libraries
 *.lai
