@@ -27,21 +27,18 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     QMainWindow::resizeEvent(event); // Llamar a la implementación base
 }
 void MainWindow::analizar(){
-    std::cout<<"Analizando..."<<std::endl;
     QString  plain_text = ui->pte_codigo->toPlainText();
     std::string cadena = plain_text.toStdString();
-    std::cout<<cadena<<std::endl;
-
     componentes.clear();
-
+    if(cadena.empty()){
+        std::cout<<"La cadena esta vacia..."<<std::endl;
+    }
     int indice = 0;
     int estado = 0;
-    while(indice <= (cadena.length()-1) && estado == 0){
-        std::cout<<"Estado: "<<estado<<" - Caracter numero "<<indice<<std::endl;
+    while(indice <= (cadena.length()-1) && estado == 0 && !cadena.empty()){
         std::string lexema = "";
         std::string token = "error";
         while(indice <= (cadena.length()-1) && estado != 20){
-            std::cout<<"Estado: "<<estado<<" - 20Caracter numero "<<indice<<std::endl;
             if(estado == 0){ // Si el estado actual es 0: (inicial) -------------------------------------------->
                 if(isspace(cadena[indice])){
                     estado = 0;
@@ -204,13 +201,10 @@ void MainWindow::analizar(){
         estado = 0;
         Componente componente = Componente(lexema, token);
         componentes.push_back(componente);
-        std::cout<<"Se creo el componente..."<<std::endl;
     }
 }
 void MainWindow::mostrar_elementos(){
-    std::cout<<"Inicia analisis"<<std::endl;
     analizar();
-    std::cout<<"Mostrando elementos..."<<std::endl;
     // Establece el número de filas en la tabla
     ui->tw_componentes->setRowCount(componentes.size());
     std::list<Componente>::iterator it = componentes.begin();
