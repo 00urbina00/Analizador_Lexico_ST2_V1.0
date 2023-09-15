@@ -68,7 +68,7 @@ color: rgb(0, 0, 255);</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_8">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="pte_codigo">
+              <widget class="PlainTextEdit" name="pte_codigo">
                <property name="font">
                 <font>
                  <family>Courier</family>
@@ -189,7 +189,7 @@ QPushButton:hover{
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="pte_segundo">
+              <widget class="PlainTextEdit" name="pte_segundo">
                <property name="maximumSize">
                 <size>
                  <width>500</width>
@@ -359,6 +359,13 @@ QPushButton:hover{
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>plaintextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
