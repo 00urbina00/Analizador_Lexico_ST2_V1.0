@@ -48,6 +48,11 @@ void MainWindow::analizar(){
                     char caracter = cadena[indice];      // Guardamos el caracter actual
                     lexema += caracter;     // Concatenamos el caracter
                     token = "id";           // Este lexema es un identificador
+                }else if(cadena[indice] == '"'){
+                    estado = 8;             // Saltamos al estado
+                    char caracter = cadena[indice];      // Guardamos el caracter actual
+                    lexema += caracter;     // Concatenamos el caracter
+                    //token = "cadena";           // Este lexema es cadena
                 }else if(cadena[indice] == '&'){                                //
                     estado = 5;             // Saltamos al estado 5
                     char caracter = cadena[indice];      // Guardamos el caracter actual
@@ -82,47 +87,47 @@ void MainWindow::analizar(){
                     estado = 18;            // Saltamos al estado 19
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "entero";       // Este lexema es
+                    token = "entero";       // Este lexema es un entero
                 }else if(cadena[indice] == '('){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "parIzq";       // Este lexema es
+                    token = "parIzq";       // Este lexema es parentesis izquierdo
                 }else if(cadena[indice] == ')'){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "parDer";       // Este lexema es
+                    token = "parDer";       // Este lexema es parentesis derecho
                 }else if(cadena[indice] == '{'){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "llaveIzq";     // Este lexema es
+                    token = "llaveIzq";     // Este lexema es llave izquierda
                 }else if(cadena[indice] == '}'){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "llaveDer";     // Este lexema es
+                    token = "llaveDer";     // Este lexema es llave derecha
                 }else if(cadena[indice] == ';'){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "puntoComa";    // Este lexema es
+                    token = "puntoComa";    // Este lexema es punto y coma
                 }else if(cadena[indice] == ','){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "coma";         // Este lexema es
+                    token = "coma";         // Este lexema es coma
                 }else if(cadena[indice] == '+' || cadena[indice] == '-'){       //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "opSuma";       // Este lexema es
+                    token = "opSuma";       // Este lexema es operador suma
                 }else if(cadena[indice] == '*' || cadena[indice] == '/'){       //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
                     lexema += caracter;     // Concatenamos el caracter
-                    token = "opMul";        // Este lexema es
+                    token = "opMul";        // Este lexema es op multiplicacion
                 }else if(cadena[indice] == '$'){                                //
                     estado = 20;            // Saltamos al estado 20
                     char caracter = cadena[indice];      // guardamos el caracter
@@ -136,6 +141,7 @@ void MainWindow::analizar(){
                     lexema += caracter;     // Concatenamos el caracter
                     token = "id";           // Este lexema es un identificador
                     ++indice;
+                    //else if()
                 }else{      // Se leyó otro caracter, se termina la cadena
                     estado = 20;
                 }
@@ -167,6 +173,49 @@ void MainWindow::analizar(){
                     char caracter = cadena[indice];
                     lexema += caracter;
                     token = "opRelac";
+                    ++indice;
+                }else{
+                    estado = 20;
+                }
+            }else if(estado == 8){
+                if(isalpha(cadena[indice]) || isdigit(cadena[indice])){
+                    estado = 8;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    ++indice;
+                }
+                else if(cadena[indice] == '\n'){
+                    estado = 8;
+                    ++indice;
+                }
+                else if(isspace(cadena[indice])){
+                    estado = 8;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    ++indice;
+                }
+                else if(cadena[indice] == '"'){
+                    estado = 20;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    token = "cadena";
+                    ++indice;
+                }
+                else{
+                    estado =20;
+                }
+            }else if(estado == 18){
+                if(isdigit(cadena[indice])){
+                    estado = 18;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    token = "entero";
+                    ++indice;
+                }else if(cadena[indice] == '.'){
+                    estado = 19;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    token = "real";
                     ++indice;
                 }else{
                     estado = 20;
