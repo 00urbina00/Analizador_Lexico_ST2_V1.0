@@ -11,6 +11,9 @@
 *.gch
 *.pch
 
+# Jflap files
+*.jff
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
