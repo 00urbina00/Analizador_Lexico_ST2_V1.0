@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_analizar, SIGNAL(clicked()), this, SLOT(mostrar_elementos()));
     connect(this, SIGNAL(centralWidgetResized()), this, SLOT(resize_table()));
 }
-
 void MainWindow::resize_table()
 {
     QHeaderView* headerView = ui->tw_componentes->horizontalHeader();
