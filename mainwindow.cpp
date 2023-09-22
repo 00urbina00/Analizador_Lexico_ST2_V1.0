@@ -14,13 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::resize_table()
 {
-    // Obtén una referencia al encabezado horizontal de la tabla
     QHeaderView* headerView = ui->tw_componentes->horizontalHeader();
 
     // Establece el modo de redimensionamiento de las columnas para que se estiren automáticamente
     headerView->setSectionResizeMode(QHeaderView::Stretch);
 }
-
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     emit centralWidgetResized(); // Emitir la señal cuando cambie el tamaño
@@ -29,11 +27,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::analizar(){
     QString  plain_text = ui->pte_codigo->toPlainText();
     std::string cadena = plain_text.toStdString();
-    cadena += "$";
     componentes.clear();
     if(cadena.empty()){
-        std::cout<<"La cadena esta vacia..."<<std::endl;
+        std::cout<<"La cadena esta vacia...\n";
     }
+    cadena += "$";
     int indice = 0;
     int estado = 0;
     while(indice <= (cadena.length()-1) && estado == 0 && !cadena.empty()){
@@ -52,7 +50,7 @@ void MainWindow::analizar(){
                     estado = 8;             // Saltamos al estado
                     char caracter = cadena[indice];      // Guardamos el caracter actual
                     lexema += caracter;     // Concatenamos el caracter
-                    //token = "cadena";           // Este lexema es cadena
+                    // Este lexema puede ser cadena
                 }else if(cadena[indice] == '&'){                                //
                     estado = 5;             // Saltamos al estado 5
                     char caracter = cadena[indice];      // Guardamos el caracter actual
@@ -142,10 +140,10 @@ void MainWindow::analizar(){
                     token = "id";           // Este lexema es un identificador
                     ++indice;
                     //else if()
-                }else{      // Se leyó otro caracter, se termina la cadena
+                }else{      // Se recibe otro caracter, se termina la cadena
                     estado = 20;
                 }
-            }else if(estado == 5){
+            }else if(estado == 5){  // Se recibe un '&'
                 if(cadena[indice] == '&'){
                     estado = 20;
                     char caracter = cadena[indice];
@@ -156,7 +154,7 @@ void MainWindow::analizar(){
                     estado = 20;
                     token = "error";
                 }
-            }else if(estado == 6){
+            }else if(estado == 6){  // Se recibe un '|'
                 if(cadena[indice] == '|'){
                     estado = 20;
                     char caracter = cadena[indice];
@@ -167,34 +165,34 @@ void MainWindow::analizar(){
                     estado = 20;
                     token = "error";
                 }
-            }else if(estado == 7){
-                if(cadena[indice] == '='){
+            }else if(estado == 7){  // Se recibe un operador "=, <, >, !"
+                if(cadena[indice] == '='){  // La cadena es "==, <=, >=, !="
                     estado = 20;
                     char caracter = cadena[indice];
                     lexema += caracter;
                     token = "opRelac";
                     ++indice;
-                }else{
+                }else{                      // La cadena es un operador "=, <, >, !"
                     estado = 20;
                 }
-            }else if(estado == 8){
-                if(isalpha(cadena[indice]) || isdigit(cadena[indice])){
+            }else if(estado == 8){  // Se recibe una comilla en el estado 0
+                if(isalpha(cadena[indice]) || isdigit(cadena[indice])){     // la cadena contiene numeros o letras
+                    estado = 8; // Nos quedamos en el mismo estado
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    ++indice;
+                }
+                else if(cadena[indice] == '\n'){    // La cadena tiene un salto de linea (se omite)
+                    estado = 8; // Nos quedamos en el mismo estado
+                    ++indice;
+                }
+                else if(isspace(cadena[indice])){   // la cadena contiene espacios o tabulaciones
                     estado = 8;
                     char caracter = cadena[indice];
                     lexema += caracter;
                     ++indice;
                 }
-                else if(cadena[indice] == '\n'){
-                    estado = 8;
-                    ++indice;
-                }
-                else if(isspace(cadena[indice])){
-                    estado = 8;
-                    char caracter = cadena[indice];
-                    lexema += caracter;
-                    ++indice;
-                }
-                else if(cadena[indice] == '"'){
+                else if(cadena[indice] == '"'){     // Se recibe la comilla de cierre
                     estado = 20;
                     char caracter = cadena[indice];
                     lexema += caracter;
@@ -202,16 +200,16 @@ void MainWindow::analizar(){
                     ++indice;
                 }
                 else{
-                    estado =20;
+                    estado = 20;
                 }
-            }else if(estado == 18){
+            }else if(estado == 18){     // Se recibe un número
                 if(isdigit(cadena[indice])){
                     estado = 18;
                     char caracter = cadena[indice];
                     lexema += caracter;
                     token = "entero";
                     ++indice;
-                }else if(cadena[indice] == '.'){
+                }else if(cadena[indice] == '.'){    // Se recibe un punto
                     estado = 19;
                     char caracter = cadena[indice];
                     lexema += caracter;
@@ -220,23 +218,7 @@ void MainWindow::analizar(){
                 }else{
                     estado = 20;
                 }
-            }else if(estado == 18){
-                if(isdigit(cadena[indice])){
-                    estado = 18;
-                    char caracter = cadena[indice];
-                    lexema += caracter;
-                    token = "entero";
-                    ++indice;
-                }else if(cadena[indice] == '.'){
-                    estado = 19;
-                    char caracter = cadena[indice];
-                    lexema += caracter;
-                    token = "real";
-                    ++indice;
-                }else{
-                    estado = 20;
-                }
-            }else if(estado == 19){
+            }else if(estado == 19){     // Se recibió un número seguido de un punto
                 if(isdigit(cadena[indice])){
                     estado = 19;
                     char caracter = cadena[indice];
