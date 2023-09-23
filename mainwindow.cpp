@@ -27,7 +27,7 @@ void MainWindow::analizar(){
     std::string cadena = plain_text.toStdString();
     componentes.clear();
     if(cadena.empty()){
-        std::cout<<"La cadena esta vacia...\n";
+        return; // La cadena esta vacia
     }
     cadena += "$";
     int indice = 0;
@@ -174,7 +174,14 @@ void MainWindow::analizar(){
                     estado = 20;
                 }
             }else if(estado == 8){  // Se recibe una comilla en el estado 0
-                if(isalpha(cadena[indice]) || isdigit(cadena[indice])){     // la cadena contiene numeros o letras
+                if(cadena[indice] == '"'){     // Se recibe la comilla de cierre
+                    estado = 20;
+                    char caracter = cadena[indice];
+                    lexema += caracter;
+                    token = "cadena";
+                    ++indice;
+                }
+                else if(isalpha(cadena[indice]) || isdigit(cadena[indice]) || (ispunct(cadena[indice]) && cadena[indice])){     // la cadena contiene numeros o letras o simbolos
                     estado = 8; // Nos quedamos en el mismo estado
                     char caracter = cadena[indice];
                     lexema += caracter;
@@ -189,15 +196,7 @@ void MainWindow::analizar(){
                     char caracter = cadena[indice];
                     lexema += caracter;
                     ++indice;
-                }
-                else if(cadena[indice] == '"'){     // Se recibe la comilla de cierre
-                    estado = 20;
-                    char caracter = cadena[indice];
-                    lexema += caracter;
-                    token = "cadena";
-                    ++indice;
-                }
-                else{
+                }else{
                     estado = 20;
                 }
             }else if(estado == 18){     // Se recibe un número
