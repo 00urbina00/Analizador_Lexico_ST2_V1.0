@@ -4,7 +4,7 @@ analizador_lexico::analizador_lexico(){
     componentes = std::list<Componente>();
 }
 bool analizador_lexico::issymbol(char caracter){
-    return (caracter == '(' || caracter == ')' || caracter == '{' || caracter == '}' || caracter == '$' || caracter == ',' || caracter == ';' || caracter == '.');
+    return (caracter == '(' || caracter == ')' || caracter == '{' || caracter == '}' || caracter == '$' || caracter == ',' || caracter == ';' || caracter == '.' || caracter == '#');
 }
 bool analizador_lexico::isoperator(char caracter){
     return (caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/');
@@ -30,6 +30,8 @@ std::string analizador_lexico::symbol_token(char simbolo){
         token = "punto";
     }else if(simbolo == '$'){
         token = "pesos";
+    }else if(simbolo == '#'){
+        token = "gato";
     }return token;
 }
 std::string analizador_lexico::arithmetic_ope_token(char simbolo){

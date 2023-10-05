@@ -5,7 +5,7 @@ Componente::Componente(const std::string& lexema, const std::string& token){
     id = -1;
     tipos_de_datos = {"int", "float", "void", "char", "string"};
     palabras_reservadas = {
-        "case", "break", "continue", "return", "class", "printf",
+        "case", "break", "continue", "return", "class", "printf", "include",
         "public", "private", "protected", "const", "try", "except", "finally", "include",
         "new", "delete", "namespace", "template", "using", "typedef", "sizeof", "static",
         "virtual", "friend", "operator", "struct", "union", "this", "true", "false"
