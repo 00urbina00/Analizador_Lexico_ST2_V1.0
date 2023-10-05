@@ -3,7 +3,7 @@
 Componente::Componente(const std::string& lexema, const std::string& token){
     nucleo = {{"token", token}, {"lexema", lexema}};
     id = -1;
-    tipos_de_datos = {"int", "float", "void"};
+    tipos_de_datos = {"int", "float", "void", "char", "string"};
     palabras_reservadas = {
         "case", "break", "continue", "return", "class", "printf",
         "public", "private", "protected", "const", "try", "except", "finally", "include",
