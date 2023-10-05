@@ -26,8 +26,12 @@ private:
     };
     bool issymbol(char caracter);
     bool isoperator(char caracter);
-    std::string token_symbol(char simbolo);
-    std::string token_operator(char simbolo);
+    bool isrelat(char caracter);
+
+    std::string symbol_token(char simbolo);
+    std::string arithmetic_ope_token(char simbolo);
+    std::string relational_ope_token(char simbolo);
+
     std::list<Componente> componentes;
 };
 

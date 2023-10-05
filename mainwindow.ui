@@ -286,7 +286,7 @@ QPushButton:hover{
                 <bool>false</bool>
                </property>
                <property name="selectionMode">
-                <enum>QAbstractItemView::MultiSelection</enum>
+                <enum>QAbstractItemView::SingleSelection</enum>
                </property>
                <property name="textElideMode">
                 <enum>Qt::ElideMiddle</enum>
