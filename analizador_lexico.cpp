@@ -31,7 +31,7 @@ std::string analizador_lexico::symbol_token(char simbolo){
     }else if(simbolo == '$'){
         token = "pesos";
     }else if(simbolo == '#'){
-        token = "gato";
+        token = "hashtag";
     }return token;
 }
 std::string analizador_lexico::arithmetic_ope_token(char simbolo){
