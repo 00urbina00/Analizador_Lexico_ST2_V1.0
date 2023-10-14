@@ -1,24 +1,54 @@
-letra::=[a-zA-Z]
-digito::=[0-9]
-caracteres::= letra | digito
-tipo::= 'int' | 'float' | 'void'
-operadores_aritmeticos::= '+' | '-' | '*' | '/'
-operadores_relacionales::= '<' | '>' | '<=' | '>='
-operadores_igualdad::= '==' | '!='
-operadores_logicos::= '||' | '&&' | '!'
-cadena::='"'caracteres*'"'
-char::= "'" caracteres "'"
-identificador::= letra+ digito*
-valor::= cadena|char|digito+
-asignacion::= '=' (valor | '=' identificador operadores_aritmeticos (digito+|identificador)) ';'
-retorno::= 'return' identificador (asignacion)? ';'
+letra ::= [a-zA-Z]
+digito ::= [0-9]
+caracteres ::= [^']
+entero ::= digito+
+real ::= digito+ . digito+
+verdadero ::= true
+falso ::= false
 
-condicion::= (tipo)? identificador (operdares_igualdad (valor|identificador)(',' (operadores_logicos identificador (operadores_igualdad(valor|identificador)))*)?)? 
-secuencia_if::= 'if' condicion bloque
-secuencia_while::= 'while' condicion bloque
-instruccion::= declarar_variable | secuencia_if | secuencia_while | retorno|identificador asignacion
-bloque   ::= '{' instruccion* '}'
-declarar_variable::= tipo identificador (asignacion (cadena | char | digito*))? ';'
-declarar_funcion::= tipo identificador '(' ( parametro ( ',' parametro )* )* ')' bloque
+tipo ::= 'int' | 'float' | 'void' | 'char' | 'string' | 'bool'
 
-inicio::= declarar_variable|declarar_funcion|secuencia_if|secuencia_while
+operadores_aritmeticos ::= '+' | '-' | '*' | '/' | '%'
+operadores_relacionales ::= '<' | '>' | '<=' | '>='
+operadores_igualdad ::= '==' | '!='
+operadores_logicos ::= '||' | '&&' | '!'
+operador_incr_decr ::= '++' | '--'
+operador_asignacion ::= '='
+operador_asignacion_compuesta ::= '+=' | '-=' | '*=' | '/=' | '%='
+
+incremento_decremento ::= (operador_incr_decr)? identificador ((operador_incr_decr) | operador_asignacion_compuesta entero)?
+
+cadena ::= '"' caracteres* '"'
+caracter ::= "'" caracteres "'"
+identificador ::= letra (letra | digito | _)*
+valor ::= cadena | caracter | entero | real | verdadero | falso
+
+asignacion ::= identificador operador_asignacion (valor | ((identificador | valor) (operadores_aritmeticos (valor | identificador))+))
+declarar_variable ::= tipo (identificador | asignacion)
+
+retorno ::= 'return' (valor | identificador)?
+paro ::= 'break'
+
+parametro ::= tipo identificador
+funcion ::= tipo identificador '(' (parametro (',' parametro)*)? ')' bloque
+llamada_funcion ::= identificador '(' (valor (',' valor)*)? ')'
+
+condicion ::= (identificador | valor | llamada_funcion) operadores_relacionales (identificador | valor | llamada_funcion) (operadores_logicos (identificador | valor | llamada_funcion) operadores_relacionales (identificador | valor | llamada_funcion))*
+
+
+secuencia_if ::= 'if' '(' condicion ')' '{' bloque '}'
+secuencia_while ::= 'while' '(' condicion ')' '{' bloque '}'
+secuencia_for ::= 'for' '(' (declarar_variable | asignacion)? ';' condicion ';' incremento_decremento ')' '{' bloque '}'
+
+casos ::= ('case' valor ':' bloque paro ';')+ | ('default' ':' bloque paro ';')?
+
+secuencia_switch ::= 'switch' '(' identificador ')' '{' casos '}'
+secuencia_do_while ::= 'do' '{' bloque '}' 'while' '(' condicion ')' ';'
+
+instruccion ::= (secuencia_if | secuencia_while | secuencia_for | secuencia_switch | secuencia_do_while) | ((declarar_variable | retorno | asignacion | llamada_funcion | paro | retorno ) ';')
+bloque ::= '{' instruccion* '}'
+
+directiva ::= '#' caracteres+ '\n'
+comentario ::= ('//' caracteres* '\n') | ('/*' caracteres* '*/')
+
+inicio ::= declarar_variable | funcion | secuencia_if | secuencia_while | secuencia_for | secuencia_switch | secuencia_do_while | directiva | comentario
