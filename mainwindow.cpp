@@ -93,6 +93,7 @@ void MainWindow::abrir_archivo(){
             QTextStream in(&file);
             QString contenido = in.readAll();
 
+            ui->pte_codigo->clear();
             // Coloca el contenido del archivo en el PlainText
             ui->pte_codigo->setPlainText(contenido);
         }

@@ -68,7 +68,7 @@ color: rgb(0, 0, 255);</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_8">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="pte_codigo">
+              <widget class="PlainTextEdit" name="pte_codigo">
                <property name="font">
                 <font>
                  <family>Courier</family>
@@ -196,7 +196,7 @@ color: rgb(0, 0, 255);</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="pte_segundo">
+              <widget class="PlainTextEdit" name="pte_segundo">
                <property name="maximumSize">
                 <size>
                  <width>500</width>
@@ -244,7 +244,7 @@ color: rgb(0, 0, 255);</string>
              <string notr="true">color: rgb(0, 170, 0);</string>
             </property>
             <property name="title">
-             <string>Componentes</string>
+             <string>Componentes123</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="0" column="0">
@@ -299,7 +299,7 @@ color: rgb(0, 0, 255);</string>
                 <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="sortingEnabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="rowCount">
                 <number>1</number>
@@ -317,13 +317,13 @@ color: rgb(0, 0, 255);</string>
                 <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderStretchLastSection">
                 <bool>false</bool>
                </attribute>
                <attribute name="verticalHeaderVisible">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <row/>
                <column>
@@ -381,7 +381,8 @@ color: rgb(0, 0, 255);</string>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_abrir">
    <property name="icon">
-    <iconset theme="folder-open"/>
+    <iconset theme="folder-open">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Abrir</string>
@@ -410,6 +411,13 @@ color: rgb(0, 0, 255);</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header location="global">plaintextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

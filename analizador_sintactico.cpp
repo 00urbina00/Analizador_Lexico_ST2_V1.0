@@ -9,7 +9,6 @@ bool analizador_sintactico::analizar(std::string cadena){
     return true;
 }
 
-
 bool analizador_sintactico::analizar_asignacion(std::list<Componente>& tokens) {
     auto it = tokens.begin();
 

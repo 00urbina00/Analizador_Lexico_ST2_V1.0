@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <list>
+// Interfaz
 #include <QMainWindow>
 #include <QPushButton>
 #include <QPlainTextEdit>
@@ -9,9 +9,11 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <Qt>
+// Manejo de archivos en interfaz
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+// Procesamiento
 #include "componente.h"
 #include "analizador_lexico.h"
 #include "Analizador_sintactico.h"

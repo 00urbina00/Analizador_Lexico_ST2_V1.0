@@ -14,49 +14,28 @@ bool analizador_lexico::isrelat(char caracter){
 }
 std::string analizador_lexico::symbol_token(char simbolo){
     std::string token;
-    if(simbolo == '('){
-        token = "parIzq";
-    }else if(simbolo == ')'){
-        token = "parDer";
-    }else if(simbolo == '{'){
-        token = "llaveIzq";
-    }else if(simbolo == '}'){
-        token = "llaveDer";
-    }else if(simbolo == ';'){
-        token = "puntoComa";
-    }else if(simbolo == ','){
-        token = "coma";
-    }else if(simbolo == '.'){
-        token = "punto";
-    }else if(simbolo == '$'){
-        token = "pesos";
-    }else if(simbolo == '#'){
-        token = "hashtag";
-    }return token;
+    if(simbolo == '(' || simbolo == ')' || simbolo == '{' || simbolo == '}' || simbolo == ';' || simbolo == ',' || simbolo == '.'){
+        token = "Separador";
+    }else if (simbolo == '$') {
+        token = "Fin de cadena";
+    }else if (simbolo == '#') {
+        token = "Hashtag";
+    }
+    return token;
 }
 std::string analizador_lexico::arithmetic_ope_token(char simbolo){
     std::string token;
-    if(simbolo == '+'){
-        token = "opSuma";
-    }else if(simbolo == '-'){
-        token = "opResta";
-    }else if(simbolo == '*'){
-        token = "opMultiplicacion";
-    }else if(simbolo == '/'){
-        token = "opDivision";
-    }return token;
+    if(simbolo == '+' || simbolo == '-' || simbolo == '*' || simbolo == '/'){
+        token = "opAritmetico";
+    }
+    return token;
 }
 std::string analizador_lexico::relational_ope_token(char simbolo){
     std::string token;
-    if(simbolo == '!'){
-        token = "opNot";
-    }else if(simbolo == '='){
-        token = "opIgual";
-    }else if(simbolo == '<'){
-        token = "opMenor";
-    }else if(simbolo == '>'){
-        token = "opMayor";
-    }return token;
+    if(simbolo == '!' || simbolo == '=' || simbolo == '<' || simbolo == '>'){
+        token = "opRelacional";
+    }
+    return token;
 }
 std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena){
     componentes.clear();
@@ -77,7 +56,7 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
                     }else if(isalpha(cadena[indice]) || (cadena[indice] == '_')){   // \w, '_'
                         estado = IDENTIFICADOR;     // Saltamos al estado IDENTIFICADOR
                         lexema += cadena[indice];   // Concatenamos el caracter actual
-                        token = "identificador";    // Este lexema es un identificador
+                        token = "id";    // Este lexema es un identificador
                     }else if(cadena[indice] == '"'){
                         estado = CADENA;            // Saltamos al estado
                         lexema += cadena[indice];   // Concatenamos el caracter actual

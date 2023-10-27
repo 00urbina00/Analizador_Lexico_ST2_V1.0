@@ -19,11 +19,11 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
+#include "plaintextedit.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,7 +40,7 @@ public:
     QGridLayout *gridLayout_5;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_8;
-    QPlainTextEdit *pte_codigo;
+    PlainTextEdit *pte_codigo;
     QFrame *frame_5;
     QGridLayout *gridLayout_7;
     QPushButton *btn_analizar;
@@ -48,7 +48,7 @@ public:
     QGridLayout *gridLayout_6;
     QGroupBox *groupBox_3;
     QGridLayout *gridLayout_9;
-    QPlainTextEdit *pte_segundo;
+    PlainTextEdit *pte_segundo;
     QFrame *frame_3;
     QGridLayout *gridLayout_3;
     QGroupBox *groupBox;
@@ -65,7 +65,13 @@ public:
         MainWindow->resize(1245, 781);
         action_abrir = new QAction(MainWindow);
         action_abrir->setObjectName("action_abrir");
-        QIcon icon(QIcon::fromTheme(QString::fromUtf8("folder-open")));
+        QIcon icon;
+        QString iconThemeName = QString::fromUtf8("folder-open");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon.addFile(QString::fromUtf8("."), QSize(), QIcon::Normal, QIcon::Off);
+        }
         action_abrir->setIcon(icon);
         QFont font;
         font.setFamilies({QString::fromUtf8("Calibri")});
@@ -105,7 +111,7 @@ public:
 "color: rgb(0, 0, 255);"));
         gridLayout_8 = new QGridLayout(groupBox_2);
         gridLayout_8->setObjectName("gridLayout_8");
-        pte_codigo = new QPlainTextEdit(groupBox_2);
+        pte_codigo = new PlainTextEdit(groupBox_2);
         pte_codigo->setObjectName("pte_codigo");
         QFont font3;
         font3.setFamilies({QString::fromUtf8("Courier")});
@@ -175,7 +181,7 @@ public:
 "color: rgb(0, 0, 255);"));
         gridLayout_9 = new QGridLayout(groupBox_3);
         gridLayout_9->setObjectName("gridLayout_9");
-        pte_segundo = new QPlainTextEdit(groupBox_3);
+        pte_segundo = new PlainTextEdit(groupBox_3);
         pte_segundo->setObjectName("pte_segundo");
         pte_segundo->setMaximumSize(QSize(500, 16777215));
         pte_segundo->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
@@ -245,15 +251,15 @@ public:
         tw_componentes->setAlternatingRowColors(false);
         tw_componentes->setSelectionMode(QAbstractItemView::MultiSelection);
         tw_componentes->setTextElideMode(Qt::ElideMiddle);
-        tw_componentes->setSortingEnabled(false);
+        tw_componentes->setSortingEnabled(true);
         tw_componentes->setRowCount(1);
         tw_componentes->horizontalHeader()->setVisible(true);
         tw_componentes->horizontalHeader()->setMinimumSectionSize(400);
         tw_componentes->horizontalHeader()->setDefaultSectionSize(420);
         tw_componentes->horizontalHeader()->setHighlightSections(true);
-        tw_componentes->horizontalHeader()->setProperty("showSortIndicator", QVariant(false));
+        tw_componentes->horizontalHeader()->setProperty("showSortIndicator", QVariant(true));
         tw_componentes->horizontalHeader()->setStretchLastSection(false);
-        tw_componentes->verticalHeader()->setVisible(false);
+        tw_componentes->verticalHeader()->setVisible(true);
 
         gridLayout_4->addWidget(tw_componentes, 0, 0, 1, 1);
 

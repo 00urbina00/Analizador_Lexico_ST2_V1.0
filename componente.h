@@ -19,6 +19,7 @@ private:
     std::unordered_set<std::string> condicionales;
     std::unordered_set<std::string> operadores_relacionales;
     std::unordered_set<std::string> signos;
+    std::unordered_set<std::string> directivas;
     std::unordered_map<std::string, std::string> nucleo;
     int id;
 public:

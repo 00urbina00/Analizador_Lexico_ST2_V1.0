@@ -3,7 +3,7 @@
 Componente::Componente(const std::string& lexema, const std::string& token){
     nucleo = {{"token", token}, {"lexema", lexema}};
     id = -1;
-    tipos_de_datos = {"int", "float", "void"};
+    tipos_de_datos = {"int", "float", "void", "string", "bool"};
     palabras_reservadas = {
         "case", "break", "continue", "return", "class", "printf",
         "public", "private", "protected", "const", "try", "except", "finally", "include",
@@ -12,54 +12,81 @@ Componente::Componente(const std::string& lexema, const std::string& token){
     };
     operadores_logicos = {"&&", "||", "!"};
     estructuras_de_control = {"while", "for", "do", "switch"};
-    condicionales = {"if", "else", "elif"};
+    condicionales = {"if", "else"};
     operadores_relacionales = {"==", "<", ">", "<=", ">=", "!="};
-    signos = {".", ",", ";"};
+    signos = {".", ",", ";", "(", ")", "{", "}"};
+    directivas = {"define", "include", "ifdef", "ifndef", "endif"};
     set_token();
     set_id();
 }
 void Componente::set_token(){
-    if (condicionales.find(nucleo["lexema"]) != condicionales.end()) {
+    if (directivas.find(nucleo["lexema"]) != directivas.end()) {
+        nucleo["token"] = "Directiva";
+    } else if (condicionales.find(nucleo["lexema"]) != condicionales.end()) {
         nucleo["token"] = "Condicional";
-    }else if (tipos_de_datos.find(nucleo["lexema"]) != tipos_de_datos.end()) {
+    } else if (operadores_logicos.find(nucleo["lexema"]) != operadores_logicos.end()) {
+        nucleo["token"] = "Operador Lógico";
+    } else if (tipos_de_datos.find(nucleo["lexema"]) != tipos_de_datos.end()) {
         nucleo["token"] = "tipo";
-    }else if (palabras_reservadas.find(nucleo["lexema"]) != palabras_reservadas.end()) {
+    } else if (palabras_reservadas.find(nucleo["lexema"]) != palabras_reservadas.end()) {
         nucleo["token"] = "Palabra Reservada";
-    }else if (estructuras_de_control.find(nucleo["lexema"]) != estructuras_de_control.end()) {
+    } else if (estructuras_de_control.find(nucleo["lexema"]) != estructuras_de_control.end()) {
         nucleo["token"] = "Estructura de Control";
+    } else if (signos.find(nucleo["lexema"]) != signos.end()) {
+        nucleo["token"] = "Separador";
     }
 }
 void Componente::set_id(){
-    std::unordered_map<std::string, int> token_a_numero = {
-        {"id",          0},      // Var1
-        {"entero",      1},      // 1
-        {"real",        2},      // 0.0
-        {"cadena",      3},      // " "
-        {"tipo",        4},      // int float void
-        {"opSuma",      5},      // + -
-        {"opMul",       6},      // * /
-        {"opRelac",     7},      // <, <=, >, >=
-        {"opOr",        8},      // ||
-        {"opAnd",       9},      // &&
-        {"opNot",       10},     // !
-        {"opIgualdad",  11},     // ==, !=
-        {";", 12},
-        {",", 13},
-        {"(", 14},
-        {")", 15},
-        {"{", 16},
-        {"}", 17},
-        {"=", 18},
-        {"if", 19},
-        {"while", 20},
-        {"return", 21},
-        {"else", 22},
-        {"$", 23},
+    std::unordered_map<std::string, int> lex_to_num = {
+        {"error", 0},
+        {"id", 1},
+        {"entero", 2},
+        {"real", 3},
+        {"cadena", 4},
+        {"caracter", 5},
+        {"int", 6},
+        {"float", 7},
+        {"void", 8},
+        {"string", 9},
+        {"char", 10},
+        {"bool", 11},
+        {"+", 12},
+        {"-", 13},
+        {"*", 14},
+        {"/", 15},
+        {"==", 16},
+        {"!=", 17},
+        {"<", 18},
+        {">", 19},
+        {"<=", 20},
+        {">=", 21},
+        {"||", 22},
+        {"&&", 23},
+        {"!", 24},
+        {";", 25},
+        {",", 26},
+        {".", 27},
+        {"#", 28},
+        {"=", 29},
+        {"if", 30},
+        {"else", 31},
+        {"while", 32},
+        {"for", 33},
+        {"switch", 34},
+        {"true", 35},
+        {"false", 36},
+        {"{", 37},
+        {"}", 38},
+        {"(", 39},
+        {")", 40},
+        {"$", 41},
+        {"Palabra Reservada", 42},
+        {"Directiva", 43}
     };
-    if(token_a_numero.find(nucleo["lexema"]) != token_a_numero.end()){
-        id = token_a_numero[nucleo["lexema"]];
-    }else if(token_a_numero.find(nucleo["token"]) != token_a_numero.end()){
-        id = token_a_numero[nucleo["token"]];
+    if(lex_to_num.find(nucleo["lexema"]) != lex_to_num.end()){
+        id = lex_to_num[nucleo["lexema"]];
+    }else if(lex_to_num.find(nucleo["token"]) != lex_to_num.end()){
+        id = lex_to_num[nucleo["token"]];
     }
 }
 

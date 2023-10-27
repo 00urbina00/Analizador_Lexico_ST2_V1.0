@@ -7,6 +7,7 @@ PlainTextEdit::PlainTextEdit(QWidget* parent) : QPlainTextEdit(parent) {
     connect(this, &QPlainTextEdit::updateRequest, this, &PlainTextEdit::updateLineNumberArea);
     connect(this, &QPlainTextEdit::cursorPositionChanged, this, &PlainTextEdit::highlightCurrentLine);
     updateLineNumberAreaWidth(0);
+
 }
 
 int PlainTextEdit::lineNumberAreaWidth() {
@@ -19,13 +20,34 @@ int PlainTextEdit::lineNumberAreaWidth() {
     int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
     return space;
 }
-
 void PlainTextEdit::resizeEvent(QResizeEvent* event) {
     QPlainTextEdit::resizeEvent(event);
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
+void PlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent* event) {
+    QPainter painter(lineNumberArea);
+    painter.fillRect(event->rect(), Qt::lightGray);
+
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = static_cast<int>(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + static_cast<int>(blockBoundingRect(block).height());
+    int height = fontMetrics().height();
+
+    while (block.isValid() && top <= event->rect().bottom()) {
+        QString number = QString::number(blockNumber + 1);
+        painter.setPen(Qt::black);
+        painter.drawText(0, top, lineNumberArea->width(), height, Qt::AlignRight, number);
+
+        block = block.next();
+        top = bottom;
+        bottom = top + static_cast<int>(blockBoundingRect(block).height());
+        ++blockNumber;
+    }
+}
+/*
 void PlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent* event) {
     QPainter painter(lineNumberArea);
     painter.fillRect(event->rect(), Qt::lightGray);
@@ -49,6 +71,7 @@ void PlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent* event) {
         ++blockNumber;
     }
 }
+*/
 
 void PlainTextEdit::updateLineNumberAreaWidth(int newBlockCount) {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
