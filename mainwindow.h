@@ -9,7 +9,12 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <Qt>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 #include "componente.h"
+#include "analizador_lexico.h"
+#include "Analizador_sintactico.h"
 
 #include <vector>
 QT_BEGIN_NAMESPACE
@@ -27,15 +32,19 @@ public:
 
 public slots:
     void resize_table();
-    void analizar();
-    void mostrar_elementos();
+    void analizar_lexicamente();
+    void abrir_archivo();
+    void mostrar_elementos(std::list<Componente> componentes);
     void Validar_Sentencia();
+    void validar_asignacion();
 
 signals:
     void centralWidgetResized();
 
 
 private:
+    analizador_lexico lexical;
+    analizador_sintactico syntax;
     Ui::MainWindow *ui;
     std::list<Componente> componentes;
 

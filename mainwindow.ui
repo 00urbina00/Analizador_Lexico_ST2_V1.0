@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
-    <height>472</height>
+    <width>1245</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -181,11 +181,18 @@ QPushButton:hover{
               <height>16777215</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(230, 230, 230);</string>
+             <string notr="true">background-color: rgb(230, 230, 230);
+color: rgb(0, 0, 255);</string>
             </property>
             <property name="title">
-             <string/>
+             <string>Análisis</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="0">
@@ -352,12 +359,56 @@ QPushButton:hover{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>734</width>
+     <width>1245</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="action_abrir"/>
+    <addaction name="action_guardar"/>
+   </widget>
+   <addaction name="menuArchivo"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_abrir">
+   <property name="icon">
+    <iconset theme="folder-open"/>
+   </property>
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="action_guardar">
+   <property name="text">
+    <string>Guardar</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

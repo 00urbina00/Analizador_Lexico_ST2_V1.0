@@ -10,24 +10,28 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
-#include "plaintextedit.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow
 {
 public:
+    QAction *action_abrir;
+    QAction *action_guardar;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QFrame *frame;
@@ -36,7 +40,7 @@ public:
     QGridLayout *gridLayout_5;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_8;
-    PlainTextEdit *pte_codigo;
+    QPlainTextEdit *pte_codigo;
     QFrame *frame_5;
     QGridLayout *gridLayout_7;
     QPushButton *btn_analizar;
@@ -44,20 +48,34 @@ public:
     QGridLayout *gridLayout_6;
     QGroupBox *groupBox_3;
     QGridLayout *gridLayout_9;
-    PlainTextEdit *pte_segundo;
+    QPlainTextEdit *pte_segundo;
     QFrame *frame_3;
     QGridLayout *gridLayout_3;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_4;
     QTableWidget *tw_componentes;
     QMenuBar *menubar;
+    QMenu *menuArchivo;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1340, 885);
+        MainWindow->resize(1245, 781);
+        action_abrir = new QAction(MainWindow);
+        action_abrir->setObjectName("action_abrir");
+        QIcon icon(QIcon::fromTheme(QString::fromUtf8("folder-open")));
+        action_abrir->setIcon(icon);
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Calibri")});
+        font.setPointSize(10);
+        action_abrir->setFont(font);
+        action_guardar = new QAction(MainWindow);
+        action_guardar->setObjectName("action_guardar");
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Calibri")});
+        action_guardar->setFont(font1);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         gridLayout = new QGridLayout(centralwidget);
@@ -79,20 +97,20 @@ public:
         gridLayout_5->setContentsMargins(0, 0, 0, 0);
         groupBox_2 = new QGroupBox(frame_2);
         groupBox_2->setObjectName("groupBox_2");
-        QFont font;
-        font.setFamilies({QString::fromUtf8("Times New Roman")});
-        font.setPointSize(10);
-        groupBox_2->setFont(font);
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Times New Roman")});
+        font2.setPointSize(10);
+        groupBox_2->setFont(font2);
         groupBox_2->setStyleSheet(QString::fromUtf8("background-color: rgb(230, 230, 230);\n"
 "color: rgb(0, 0, 255);"));
         gridLayout_8 = new QGridLayout(groupBox_2);
         gridLayout_8->setObjectName("gridLayout_8");
-        pte_codigo = new PlainTextEdit(groupBox_2);
+        pte_codigo = new QPlainTextEdit(groupBox_2);
         pte_codigo->setObjectName("pte_codigo");
-        QFont font1;
-        font1.setFamilies({QString::fromUtf8("Courier")});
-        font1.setPointSize(12);
-        pte_codigo->setFont(font1);
+        QFont font3;
+        font3.setFamilies({QString::fromUtf8("Courier")});
+        font3.setPointSize(12);
+        pte_codigo->setFont(font3);
         pte_codigo->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);\n"
 "color: rgb(0, 0, 255);"));
 
@@ -113,7 +131,7 @@ public:
         gridLayout_7->setObjectName("gridLayout_7");
         btn_analizar = new QPushButton(frame_5);
         btn_analizar->setObjectName("btn_analizar");
-        btn_analizar->setFont(font);
+        btn_analizar->setFont(font2);
         btn_analizar->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "	\n"
 "	background-color: rgb(220, 220, 220);\n"
@@ -152,10 +170,12 @@ public:
         groupBox_3 = new QGroupBox(frame_4);
         groupBox_3->setObjectName("groupBox_3");
         groupBox_3->setMaximumSize(QSize(500, 16777215));
-        groupBox_3->setStyleSheet(QString::fromUtf8("background-color: rgb(230, 230, 230);"));
+        groupBox_3->setFont(font2);
+        groupBox_3->setStyleSheet(QString::fromUtf8("background-color: rgb(230, 230, 230);\n"
+"color: rgb(0, 0, 255);"));
         gridLayout_9 = new QGridLayout(groupBox_3);
         gridLayout_9->setObjectName("gridLayout_9");
-        pte_segundo = new PlainTextEdit(groupBox_3);
+        pte_segundo = new QPlainTextEdit(groupBox_3);
         pte_segundo->setObjectName("pte_segundo");
         pte_segundo->setMaximumSize(QSize(500, 16777215));
         pte_segundo->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
@@ -178,7 +198,7 @@ public:
         gridLayout_3->setObjectName("gridLayout_3");
         groupBox = new QGroupBox(frame_3);
         groupBox->setObjectName("groupBox");
-        groupBox->setFont(font);
+        groupBox->setFont(font2);
         groupBox->setStyleSheet(QString::fromUtf8("color: rgb(0, 170, 0);"));
         gridLayout_4 = new QGridLayout(groupBox);
         gridLayout_4->setObjectName("gridLayout_4");
@@ -194,10 +214,10 @@ public:
         if (tw_componentes->rowCount() < 1)
             tw_componentes->setRowCount(1);
         tw_componentes->setObjectName("tw_componentes");
-        QFont font2;
-        font2.setFamilies({QString::fromUtf8("Times New Roman")});
-        font2.setPointSize(12);
-        tw_componentes->setFont(font2);
+        QFont font4;
+        font4.setFamilies({QString::fromUtf8("Times New Roman")});
+        font4.setPointSize(12);
+        tw_componentes->setFont(font4);
         tw_componentes->setStyleSheet(QString::fromUtf8("QTableWidget {\n"
 "       \n"
 "	background-color: rgb(255, 255, 255);\n"
@@ -233,7 +253,7 @@ public:
         tw_componentes->horizontalHeader()->setHighlightSections(true);
         tw_componentes->horizontalHeader()->setProperty("showSortIndicator", QVariant(false));
         tw_componentes->horizontalHeader()->setStretchLastSection(false);
-        tw_componentes->verticalHeader()->setVisible(true);
+        tw_componentes->verticalHeader()->setVisible(false);
 
         gridLayout_4->addWidget(tw_componentes, 0, 0, 1, 1);
 
@@ -249,11 +269,18 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1340, 21));
+        menubar->setGeometry(QRect(0, 0, 1245, 21));
+        menuArchivo = new QMenu(menubar);
+        menuArchivo->setObjectName("menuArchivo");
+        menuArchivo->setFont(font);
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
+
+        menubar->addAction(menuArchivo->menuAction());
+        menuArchivo->addAction(action_abrir);
+        menuArchivo->addAction(action_guardar);
 
         retranslateUi(MainWindow);
 
@@ -262,11 +289,19 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Analizador Lexico", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        action_abrir->setText(QCoreApplication::translate("MainWindow", "Abrir", nullptr));
+#if QT_CONFIG(shortcut)
+        action_abrir->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+A", nullptr));
+#endif // QT_CONFIG(shortcut)
+        action_guardar->setText(QCoreApplication::translate("MainWindow", "Guardar", nullptr));
+#if QT_CONFIG(shortcut)
+        action_guardar->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+S", nullptr));
+#endif // QT_CONFIG(shortcut)
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "C\303\263digo", nullptr));
         pte_codigo->setPlaceholderText(QCoreApplication::translate("MainWindow", "int void(){while(true){if(true)return;}}", nullptr));
         btn_analizar->setText(QCoreApplication::translate("MainWindow", "Analizar", nullptr));
-        groupBox_3->setTitle(QString());
+        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "An\303\241lisis", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Componentes", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tw_componentes->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Lexema", nullptr));
@@ -274,6 +309,7 @@ public:
         ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Token", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tw_componentes->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "#", nullptr));
+        menuArchivo->setTitle(QCoreApplication::translate("MainWindow", "Archivo", nullptr));
     } // retranslateUi
 
 };

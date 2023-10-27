@@ -7,7 +7,7 @@ class AnalizadorSintactico {
 public:
     AnalizadorSintactico(const std::string& codigo) : codigo_(codigo), posicion_(0) {}
     bool declarar_variable() {
-        // Ignorar espacios en blanco iniciales:
+        // Ignorar espacios en blanco iniciales:sip
         EspaciosEnBlanco();
         // Intenta analizar el tipo
         if (Tipo()) {
@@ -63,7 +63,7 @@ private:
     bool Letra() {
         if (posicion_ < codigo_.length()) {
             char c = codigo_[posicion_];
-            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= 'á' && c <= 'ú') || (c >= 'Á' && c <= 'Ú')) {
+            if (isalpha(c) || iswalpha(c)) {
                 posicion_++;
                 return true;
             }

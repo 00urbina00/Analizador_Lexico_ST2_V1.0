@@ -1,4 +1,0 @@
-﻿  Analizador_sintactico.cpp
-D:\Programacion\Classroom\Sem_traductores\Subproducto_2\Pruebas_Codigo\Analizador_sintactico\Analizador_sintactico.cpp(192,15): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-D:\Programacion\Classroom\Sem_traductores\Subproducto_2\Pruebas_Codigo\Analizador_sintactico\Analizador_sintactico.cpp(198,15): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-  Analizador_sintactico.vcxproj -> D:\Programacion\Classroom\Sem_traductores\Subproducto_2\Pruebas_Codigo\Analizador_sintactico\x64\Debug\Analizador_sintactico.exe
