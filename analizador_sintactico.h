@@ -15,6 +15,7 @@ public:
     bool analizar(std::string cadena);
     bool declarar_variable();
     bool analizar_asignacion(std::list<Componente>& tokens);
+    bool validar_inicio(std::list<Componente>& tokens);
 
 private:
     size_t posicion;

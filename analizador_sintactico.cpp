@@ -36,3 +36,37 @@ bool analizador_sintactico::analizar_asignacion(std::list<Componente>& tokens) {
         return false;
     }
 }
+bool analizador_sintactico::validar_inicio(std::list<Componente>& tokens) {
+    auto it = tokens.begin();
+
+    // Llama a las funciones de validación correspondientes en el orden deseado.
+    if (declarar_variable(it)) {
+        return true;
+    }
+    if (funcion(it)) {
+        return true;
+    }
+    if (secuencia_if(it)) {
+        return true;
+    }
+    if (secuencia_while(it)) {
+        return true;
+    }
+    if (secuencia_for(it)) {
+        return true;
+    }
+    if (secuencia_switch(it)) {
+        return true;
+    }
+    if (secuencia_do_while(it)) {
+        return true;
+    }
+    if (directiva(it)) {
+        return true;
+    }
+    if (comentario(it)) {
+        return true;
+    }
+
+    return false;
+}
