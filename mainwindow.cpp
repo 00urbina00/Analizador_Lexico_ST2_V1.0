@@ -37,9 +37,9 @@ void MainWindow::analizar_lexicamente(){
     QString  plain_text = ui->pte_codigo->toPlainText();        // Extrae el texto del PlainText a un QString.
     std::string cadena = plain_text.toStdString();              // Crea un string del QString.
     // Llama al analizador léxico(regresa una lista de componentes léxicos) y los muestra en la interfaz.
+    componentes.clear();
     componentes = lexical.analizar_lexicamente(cadena);  // Se inicializa componentes con los analizados
     mostrar_elementos(componentes);
-
 }
 void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recibe la lista de componentes del analizador lex
     // Establece el número de filas en la tabla
@@ -75,7 +75,7 @@ void MainWindow::Validar_Sentencia(){
 
 }
 void MainWindow::validar_asignacion(){
-    if(syntax.analizar_asignacion(componentes)){
+    if(syntax.validar_inicio(componentes)){
         ui->pte_segundo->setPlainText("La entrada proporcionada es valida!!!");
     }
     else{

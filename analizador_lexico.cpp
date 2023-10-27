@@ -39,6 +39,7 @@ std::string analizador_lexico::relational_ope_token(char simbolo){
 }
 std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena){
     componentes.clear();
+    Componente::inicializar_diccionarios();
     if(cadena.empty()){
         return componentes; // La cadena esta vacia
     }
@@ -135,7 +136,7 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
                         token = "cadena";
                         ++indice;
                     }
-                    else if(isalpha(cadena[indice]) || isdigit(cadena[indice]) || (ispunct(cadena[indice]) && cadena[indice])){     // la cadena contiene numeros o letras o simbolos
+                    else if(isalnum(cadena[indice]) || ispunct(cadena[indice]) && cadena[indice] != '$'){     // la cadena contiene numeros o letras o simbolos
                         lexema += cadena[indice];
                         ++indice;
                     }
@@ -146,6 +147,15 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
                         lexema += cadena[indice];
                         ++indice;
                     }else{
+                        while (indice < cadena.length() && cadena[indice] != '$' && cadena[indice] != '"') {
+                            lexema += cadena[indice];
+                            ++indice;
+                        }
+                        if(cadena[indice] == '"'){
+                            lexema += cadena[indice];
+                            ++indice;
+                        }
+                        token = "error";
                         estado = FINAL;
                     }break;
                 case CARACTER:
@@ -162,6 +172,15 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
                         lexema += cadena[indice];
                         ++indice;
                     }else{
+                        while (indice < cadena.length() && cadena[indice] != '$' && cadena[indice] != '\'') {
+                            lexema += cadena[indice];
+                            ++indice;
+                        }
+                        if(cadena[indice] == '\''){
+                            lexema += cadena[indice];
+                            ++indice;
+                        }
+                        token = "error";
                         estado = FINAL;
                     }break;
                 case ENTERO:
