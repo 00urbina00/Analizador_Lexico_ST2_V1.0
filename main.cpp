@@ -4,8 +4,6 @@
 #include <QLocale>
 #include <QTranslator>
 
-// Hola Mundo! prueba de commit
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

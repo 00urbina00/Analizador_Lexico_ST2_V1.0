@@ -3,9 +3,9 @@
 Componente::Componente(const std::string& lexema, const std::string& token){
     nucleo = {{"token", token}, {"lexema", lexema}};
     id = -1;
-    tipos_de_datos = {"int", "float", "void", "char", "string"};
+    tipos_de_datos = {"int", "float", "void"};
     palabras_reservadas = {
-        "case", "break", "continue", "return", "class", "printf", "include",
+        "case", "break", "continue", "return", "class", "printf",
         "public", "private", "protected", "const", "try", "except", "finally", "include",
         "new", "delete", "namespace", "template", "using", "typedef", "sizeof", "static",
         "virtual", "friend", "operator", "struct", "union", "this", "true", "false"
@@ -24,9 +24,9 @@ void Componente::set_token(){
     }else if (tipos_de_datos.find(nucleo["lexema"]) != tipos_de_datos.end()) {
         nucleo["token"] = "tipo";
     }else if (palabras_reservadas.find(nucleo["lexema"]) != palabras_reservadas.end()) {
-            nucleo["token"] = "Palabra Reservada";
+        nucleo["token"] = "Palabra Reservada";
     }else if (estructuras_de_control.find(nucleo["lexema"]) != estructuras_de_control.end()) {
-            nucleo["token"] = "Estructura de Control";
+        nucleo["token"] = "Estructura de Control";
     }
 }
 void Componente::set_id(){
@@ -57,9 +57,9 @@ void Componente::set_id(){
         {"$", 23},
     };
     if(token_a_numero.find(nucleo["lexema"]) != token_a_numero.end()){
-            id = token_a_numero[nucleo["lexema"]];
+        id = token_a_numero[nucleo["lexema"]];
     }else if(token_a_numero.find(nucleo["token"]) != token_a_numero.end()){
-            id = token_a_numero[nucleo["token"]];
+        id = token_a_numero[nucleo["token"]];
     }
 }
 

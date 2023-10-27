@@ -11,6 +11,7 @@ class Componente{
 
 
 private:
+    std::map<std::string, int> diccionario;
     std::unordered_set<std::string> tipos_de_datos;
     std::unordered_set<std::string> palabras_reservadas;
     std::unordered_set<std::string> operadores_logicos;
