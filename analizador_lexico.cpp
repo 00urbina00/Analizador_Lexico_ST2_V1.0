@@ -124,7 +124,7 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
                     if(cadena[indice] == '='){          // La cadena es "==, <=, >=, !="
                         estado = FINAL;
                         lexema += cadena[indice];
-                        token = "opRelac";
+                        token = "opRelacional";
                         ++indice;
                     }else{                              // La cadena es un operador "=, <, >, !"
                         estado = FINAL;

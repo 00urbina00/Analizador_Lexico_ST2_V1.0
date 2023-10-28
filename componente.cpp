@@ -48,7 +48,7 @@ void Componente::set_token(){
     }else if (condicionales.find(nucleo["lexema"]) != condicionales.end()) {
         nucleo["token"] = "Condicional";
     }else if (operadores_logicos.find(nucleo["lexema"]) != operadores_logicos.end()) {
-        nucleo["token"] = "Operador Lógico";
+        nucleo["token"] = "OpLogico";
     }else if (tipos_de_datos.find(nucleo["lexema"]) != tipos_de_datos.end()) {
         nucleo["token"] = "tipo";
     }else if (palabras_reservadas.find(nucleo["lexema"]) != palabras_reservadas.end()) {
