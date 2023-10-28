@@ -209,14 +209,16 @@ public:
         gridLayout_4 = new QGridLayout(groupBox);
         gridLayout_4->setObjectName("gridLayout_4");
         tw_componentes = new QTableWidget(groupBox);
-        if (tw_componentes->columnCount() < 3)
-            tw_componentes->setColumnCount(3);
+        if (tw_componentes->columnCount() < 4)
+            tw_componentes->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tw_componentes->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tw_componentes->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         tw_componentes->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        tw_componentes->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         if (tw_componentes->rowCount() < 1)
             tw_componentes->setRowCount(1);
         tw_componentes->setObjectName("tw_componentes");
@@ -314,7 +316,9 @@ public:
         QTableWidgetItem *___qtablewidgetitem1 = tw_componentes->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Token", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tw_componentes->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "#", nullptr));
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = tw_componentes->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Regla", nullptr));
         menuArchivo->setTitle(QCoreApplication::translate("MainWindow", "Archivo", nullptr));
     } // retranslateUi
 

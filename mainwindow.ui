@@ -244,7 +244,7 @@ color: rgb(0, 0, 255);</string>
              <string notr="true">color: rgb(0, 170, 0);</string>
             </property>
             <property name="title">
-             <string>Componentes123</string>
+             <string>Componentes</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="0" column="0">
@@ -301,11 +301,17 @@ color: rgb(0, 0, 255);</string>
                <property name="sortingEnabled">
                 <bool>true</bool>
                </property>
+               <property name="cornerButtonEnabled">
+                <bool>false</bool>
+               </property>
                <property name="rowCount">
                 <number>1</number>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>true</bool>
+               </attribute>
+               <attribute name="horizontalHeaderCascadingSectionResizes">
+                <bool>false</bool>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
                 <number>400</number>
@@ -338,7 +344,12 @@ color: rgb(0, 0, 255);</string>
                </column>
                <column>
                 <property name="text">
-                 <string>#</string>
+                 <string>ID</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Regla</string>
                 </property>
                </column>
               </widget>

@@ -44,21 +44,31 @@ void MainWindow::analizar_lexicamente(){
 void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recibe la lista de componentes del analizador lex
     // Establece el número de filas en la tabla
     ui->tw_componentes->setRowCount(componentes.size());
+
+    // Establece el número de columnas en la tabla
+    int numColumnas = 4; // Número de columnas, incluyendo la nueva columna
+    ui->tw_componentes->setColumnCount(numColumnas);
     std::list<Componente>::iterator it = componentes.begin();
     int fila = 0;
-    while(it != componentes.end()){
+    while (it != componentes.end()) {
         Componente componente = *it;
-        // Asigna los valores a las celdas de la fila
+
+        // Asigna los valores a las celdas de las primeras tres columnas
         ui->tw_componentes->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString(componente.get_lexema())));
         ui->tw_componentes->setItem(fila, 1, new QTableWidgetItem(QString::fromStdString(componente.get_token())));
         ui->tw_componentes->setItem(fila, 2, new QTableWidgetItem(QString::number(componente.get_id())));
+
+        // Añade un elemento vacío a la cuarta columna
+        ui->tw_componentes->setItem(fila, 3, new QTableWidgetItem(""));
+
         // Alinea el texto en el centro de las celdas
-        ui->tw_componentes->item(fila, 0)->setTextAlignment(Qt::AlignCenter);
-        ui->tw_componentes->item(fila, 1)->setTextAlignment(Qt::AlignCenter);
-        ui->tw_componentes->item(fila, 2)->setTextAlignment(Qt::AlignCenter);
+        for (int columna = 0; columna < numColumnas; ++columna) {
+            ui->tw_componentes->item(fila, columna)->setTextAlignment(Qt::AlignCenter);
+        }
         ++it;
         ++fila;
     }
+
     // Ajusta automáticamente el ancho de las columnas
     ui->tw_componentes->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
