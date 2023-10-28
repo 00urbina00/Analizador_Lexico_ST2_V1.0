@@ -37,7 +37,6 @@ public slots:
     void analizar_lexicamente();
     void abrir_archivo();
     void mostrar_elementos(std::list<Componente> componentes);
-    void Validar_Sentencia();
     void validar_asignacion();
 
 signals:

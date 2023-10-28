@@ -72,30 +72,15 @@ void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recib
     // Ajusta automáticamente el ancho de las columnas
     ui->tw_componentes->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
-void MainWindow::Validar_Sentencia(){
-    QString aux=ui->pte_codigo->toPlainText();
-    std::string codigo=aux.toStdString();
-    AnalizadorSintactico analizador(codigo);
-    if(analizador.declarar_variable()){
-        ui->pte_segundo->setPlainText("La entrada proporcionada es valida!!!");
-    }
-    else{
-        ui->pte_segundo->setPlainText("La entrada proporcionada no cuenta con la sintaxis correcta!!!");
-    }
-
-}
 void MainWindow::validar_asignacion(){
-    if(syntax.validar_inicio(componentes)){
-        ui->pte_segundo->setPlainText("La entrada proporcionada es valida!!!");
-    }
-    else{
-        ui->pte_segundo->setPlainText("La entrada proporcionada no cuenta con la sintaxis correcta!!!");
-    }
+    std::string salida = syntax.validar_inicio(componentes);
+    // Convertir el std::string a QString
+    QString qSalida = QString::fromStdString(salida);
+    ui->pte_segundo->setPlainText(qSalida);
 }
 
 void MainWindow::abrir_archivo(){
     QString archivo = QFileDialog::getOpenFileName(this, "Abrir archivo de código fuente", QDir::homePath(), "Archivos de código fuente (*.cpp *.h *.hpp)");
-
     if (!archivo.isEmpty()) {
         // Abre y procesa el archivo seleccionado.
         QFile file(archivo);

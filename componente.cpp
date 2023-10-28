@@ -19,14 +19,14 @@ void Componente::inicializar_diccionarios(){
         "public", "private", "protected", "const", "try", "except", "finally", "include",
         "new", "delete", "namespace", "template", "using", "typedef", "sizeof", "static",
         "virtual", "friend", "operator", "struct", "union", "this", "true", "false", "empty",
-        "std", "endl", "cin", "cout", "main", "const", "static"
+        "std", "endl", "cin", "cout", "main", "const", "static", "default"
     };
     operadores_logicos = {"&&", "||", "!"};
     estructuras_de_control = {"while", "for", "do", "switch"};
     condicionales = {"if", "else"};
     operadores_relacionales = {"==", "<", ">", "<=", ">=", "!="};
     operadores_aritmeticos = {"+", "-", "*", "/"};
-    signos = {".", ",", ";", "(", ")", "{", "}"};
+    signos = {".", ",", ";", ":", "(", ")", "{", "}"};
     directivas = {"define", "include", "ifdef", "ifndef", "endif"};
 }
 
@@ -112,7 +112,13 @@ void Componente::set_id(){
         {")", 40},
         {"$", 41},
         {"Palabra Reservada", 42},
-        {"Directiva", 43}
+        {"Directiva", 43}, 
+        {"return", 44},
+        {"break", 45},
+        {"case", 46},
+        {":", 47},
+        {"default", 48}
+
     };
     if(lex_to_num.find(nucleo["lexema"]) != lex_to_num.end()){
         id = lex_to_num[nucleo["lexema"]];

@@ -4,7 +4,7 @@ analizador_lexico::analizador_lexico(){
     componentes = std::list<Componente>();
 }
 bool analizador_lexico::issymbol(char caracter){
-    return (caracter == '(' || caracter == ')' || caracter == '{' || caracter == '}' || caracter == '$' || caracter == ',' || caracter == ';' || caracter == '.' || caracter == '#');
+    return (caracter == '(' || caracter == ')' || caracter == '{' || caracter == '}' || caracter == '$' || caracter == ',' || caracter == ';' || caracter == ':' || caracter == '.' || caracter == '#');
 }
 bool analizador_lexico::isoperator(char caracter){
     return (caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/');
