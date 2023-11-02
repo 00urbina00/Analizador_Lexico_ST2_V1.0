@@ -12,13 +12,6 @@ void analizador_sintactico::capturar_error(std::list<Componente>::iterator& it, 
     regla = rule;
     token_esp = token_esperado;
     ultimo_token_recibido = componente.get_token();
-    /*
-    std::cout<<"-------------------- Error de sintaxis --------------------"<<std::endl;
-    std::cout<<"Error en la regla: "<<regla<<std::endl;
-    std::cout<<"Se recibio el token: "<<ultimo_token_recibido<<std::endl;
-    std::cout<<"Token esperado: "<<token_esp<<std::endl;
-    std::cout<<"-----------------------------------------------------------"<<std::endl;
-    */
 }
 
 void analizador_sintactico::print_elemento(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -53,7 +46,6 @@ bool analizador_sintactico::directiva(std::list<Componente>::iterator& it, std::
             return true;
         }
     }
-    // print_elemento(it, end);
     capturar_error(it, "Directiva", "caden || <valor>");
     return false;
 }
@@ -62,7 +54,6 @@ bool analizador_sintactico::entero(std::list<Componente>::iterator& it, std::lis
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Entero", "entero");
     return false;
 }
@@ -71,26 +62,27 @@ bool analizador_sintactico::real(std::list<Componente>::iterator& it, std::list<
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Real", "real");
     return false;
 }
 bool analizador_sintactico::verdadero(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Palabra reservada" && it->get_id() == 35) {
+    if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 35) {
         it++;
+        std::cout<<"Se leyo un valor verdadero valido.."<<std::endl;
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Verdadero", "true");
+    std::cout<<"No hubo un valor verdadero valido.."<<std::endl;
+    capturar_error(it, "Verdadero", "Palabra Reservada");
     return false;
 }
 bool analizador_sintactico::falso(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Palabra reservada" && it->get_id() == 36) {
+    if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 36) {
         it++;
+        std::cout<<"Se leyo un valor falso valido.."<<std::endl;
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Falso", "false");
+    std::cout<<"No hubo un valor falso valido... el valor actual fue: "<<it->get_token()<<" Con id: "<<it->get_id()<<std::endl;
+    capturar_error(it, "Falso", "Palabra Reservada");
     return false;
 }
 bool analizador_sintactico::tipo(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -98,7 +90,6 @@ bool analizador_sintactico::tipo(std::list<Componente>::iterator& it, std::list<
         it++; // Avanzar al siguiente token
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Tipo", "tipo");
     return false;
 }
@@ -107,7 +98,6 @@ bool analizador_sintactico::ope_aritmeticos(std::list<Componente>::iterator& it,
         it++; // Avanzar al siguiente token
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador Aritmetico", "opAritmetico");
     return false;
 }
@@ -117,7 +107,6 @@ bool analizador_sintactico::ope_relacional(std::list<Componente>::iterator& it, 
         it++; // Avanzar al siguiente token
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador Relacional", "opRelacional");
     return false;
 }
@@ -127,7 +116,6 @@ bool analizador_sintactico::ope_igualdad(std::list<Componente>::iterator& it, st
         it++; // Avanzar al siguiente token
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador Igualdad", "opRelacional");
     return false;
 }
@@ -137,7 +125,6 @@ bool analizador_sintactico::ope_logicos(std::list<Componente>::iterator& it, std
         it++; // Avanzar al siguiente token
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador Logico", "opLogico");
     return false;
 }
@@ -146,7 +133,6 @@ bool analizador_sintactico::cadena(std::list<Componente>::iterator& it, std::lis
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Cadena", "cadena");
     return false;
 }
@@ -155,7 +141,6 @@ bool analizador_sintactico::caracter(std::list<Componente>::iterator& it, std::l
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Caracter", "caracter");
     return false;
 }
@@ -164,24 +149,16 @@ bool analizador_sintactico::identificador(std::list<Componente>::iterator& it, s
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Identificador", "id");
     return false;
 }
-/*
 bool analizador_sintactico::valor(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && (entero(it, end) || real(it, end) || cadena(it, end) ||
-                      caracter(it, end) || verdadero(it, end) || falso(it, end))){
-        it++;
+    if(entero(it, end) || real(it, end) || cadena(it, end) ||
+                      caracter(it, end) || verdadero(it, end) || falso(it, end)){
+        std::cout<<"Se leyo un Valor valido.."<<std::endl;
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Valor", "valor");
-    return false;
-}
-*/
-bool analizador_sintactico::valor(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    capturar_error(it, "Valor", "valor");
+    std::cout<<"No hubo un valor valido.."<<std::endl;
     return false;
 }
 bool analizador_sintactico::op_igual(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -189,7 +166,6 @@ bool analizador_sintactico::op_igual(std::list<Componente>::iterator& it, std::l
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador Igual", "opRelacional");
     return false;
 }
@@ -198,7 +174,6 @@ bool analizador_sintactico::condicional_if(std::list<Componente>::iterator& it, 
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Condicional if", "Condicional");
     return false;
 }
@@ -207,7 +182,6 @@ bool analizador_sintactico::condicional_else(std::list<Componente>::iterator& it
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Condicional if", "Condicional");
     return false;
 }
@@ -216,7 +190,6 @@ bool analizador_sintactico::punto_coma(std::list<Componente>::iterator& it, std:
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Punto y coma", "Separador");
     return false;
 }
@@ -225,7 +198,6 @@ bool analizador_sintactico::llave_izq(std::list<Componente>::iterator& it, std::
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Llave izquierda", "Separador");
     return false;
 }
@@ -234,7 +206,6 @@ bool analizador_sintactico::llave_der(std::list<Componente>::iterator& it, std::
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Llave derecha", "Separador");
     return false;
 }
@@ -243,7 +214,6 @@ bool analizador_sintactico::parentesis_izq(std::list<Componente>::iterator& it, 
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Parentesis izquierdo", "Separador");
     return false;
 }
@@ -252,7 +222,6 @@ bool analizador_sintactico::parentesis_der(std::list<Componente>::iterator& it, 
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Parentesis derecho", "Separador");
     return false;
 }
@@ -261,7 +230,6 @@ bool analizador_sintactico::ope_while(std::list<Componente>::iterator& it, std::
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador while", "Estructura de Control");
     return false;
 }
@@ -270,36 +238,35 @@ bool analizador_sintactico::ope_switch(std::list<Componente>::iterator& it, std:
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Operador switch", "Estructura de Control");
     return false;
 }
 bool analizador_sintactico::asignacion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end) {
     // Verificar si el primer token es un identificador
-    if (!identificador(it, end)) {
-        capturar_error(it, "Asignacion", "id");
+    if(!identificador(it, end)){
         return false;
     }
+    std::cout<<"Se leyo un identificador valido.."<<std::endl;
     // Verificar si a continuación hay un operador de asignación
-    if (!op_igual(it, end)) {
-        capturar_error(it, "Asignacion", "opRelacional");
+    if(!op_igual(it, end)){
         it--; // Se regresa luego de haber consumido el id
         return false;
     }
+    std::cout<<"Se leyo un operador igual valido.."<<std::endl;
     // Verificar si a continuación hay un valor (que puede ser un entero o un identificador)
-    if (entero(it, end) || identificador(it, end) || real(it, end) || cadena(it, end) || caracter(it, end)) {
+    if(valor(it, end) || identificador(it, end)){
+        std::cout<<"Se leyo un un valor valido.."<<std::endl;
         return true;
     }
     // Si no se encontró un valor válido, entonces la asignación es incorrecta
-    capturar_error(it, "Asignacion", "entero | id | real | cadena | caracter");
     return false;
 }
 bool analizador_sintactico::declarar_variable(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     // Verificar si el primer token no es un tipo
     if(!tipo(it, end)){
-        capturar_error(it, "Declaracion de variable", "int | float | void | string | char | bool");
         return false;
     }
+    std::cout<<"Se leyo un tipo valido.."<<std::endl;
     // Verificar si a continuación hay una asignacion
     if(asignacion(it, end)){
         return true;
@@ -308,37 +275,35 @@ bool analizador_sintactico::declarar_variable(std::list<Componente>::iterator& i
     if(identificador(it, end)){
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Declaracion de variable", "id");
     return false; // La estructura no coincide con la regla declarar_variable
 }
 bool analizador_sintactico::romper(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){ // break
-    if(it != end && it->get_token() == "Palabra reservada" && it->get_id() == 45){
+    if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 45){
         it++;
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Romper ciclo", "Palabra reservada");
+    capturar_error(it, "Romper ciclo", "Palabra Reservada");
     return false;
 }
 bool analizador_sintactico::retorno(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Palabra reservada" && it->get_id() == 44){
+    if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 44){
         it++;
         if(valor(it, end) || identificador(it, end)){
             return true;
         }
         return true;
+    }else{
+        capturar_error(it, "Retorno", "Palabra Reservada");
+        return false;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Retorno", "Palabra reservada");
     return false;
+
 }
 bool analizador_sintactico::coma(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(it != end && it->get_token() == "Separador" && it->get_id() == 26){
         it++;
         return true;
     }
-    // print_elemento(it, end);
     capturar_error(it, "Coma", "Separador");
     return false;
 }
@@ -348,8 +313,6 @@ bool analizador_sintactico::parametro(std::list<Componente>::iterator& it, std::
             return true;
         }
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Parametro", "int | float | void | string | char | bool");
     return false;
 }
 bool analizador_sintactico::dos_puntos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -368,16 +331,18 @@ bool analizador_sintactico::defecto(std::list<Componente>::iterator& it, std::li
 }
 bool analizador_sintactico::caso(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     // 'case' valor ':' bloque 'break' ';'
-    if (it != end && it->get_token() == "Palabra reservada" && it->get_id() == 46) { // 'case'
+    if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 46){ // 'case'
         it++;
-        if ( identificador(it, end) || (entero(it, end)) && dos_puntos(it, end)){
+        if(identificador(it, end) || (entero(it, end)) && dos_puntos(it, end)){
             // Procesar el bloque y el 'break'
-            if (bloque(it, end) && romper(it, end) && punto_coma(it, end)) {
+            if (bloque(it, end) && romper(it, end) && punto_coma(it, end)){
                 return true;
             }
         }
+    }else{
+        capturar_error(it, "Case", "Palabra Reservada");
+        return false;
     }
-    capturar_error(it, "Case", "entero | Palabra reservada | Separador | bloque");
     return false;
 }
 bool analizador_sintactico::casos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -412,10 +377,12 @@ bool analizador_sintactico::secuencia_switch(std::list<Componente>::iterator& it
             llave_izq(it, end) && casos(it, end) && llave_der(it, end)) {
             return true;
         }
+    }else{
+        capturar_error(it, "Secuencia switch", "Palabra Reservada | Separador | identificador | Estructura de control");
+        return false;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Secuencia switch", "Palabra reservada | Separador | identificador | Estructura de control");
     return false;
+
 }
 bool analizador_sintactico::funcion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if (tipo(it, end) && identificador(it, end) && parentesis_izq(it, end)) {
@@ -424,7 +391,6 @@ bool analizador_sintactico::funcion(std::list<Componente>::iterator& it, std::li
             // Usar un bucle while para procesar múltiples parámetros
             while(coma(it, end)) {
                 if (!parametro(it, end)) {
-                    capturar_error(it, "Funcion", "tipo | id");
                     return false; // Error en la sintaxis del parámetro
                 }
             }
@@ -435,14 +401,12 @@ bool analizador_sintactico::funcion(std::list<Componente>::iterator& it, std::li
             return true;
         }
     }
-    // print_elemento(it, end);
     return false; // La estructura no coincide con la regla de función
 }
 bool analizador_sintactico::condicion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(identificador(it, end) && ope_relacional(it, end) && identificador(it, end) || entero(it, end) || real(it, end) || cadena(it, end) || caracter(it, end)){
+    if((identificador(it, end) || valor(it, end)) && ope_relacional(it, end) && (identificador(it, end) || valor(it, end))){
         return true;
     }
-    capturar_error(it, "Condicion", "id | opRelacional | valor");
     return false;
 }
 bool analizador_sintactico::instruccion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -454,8 +418,6 @@ bool analizador_sintactico::instruccion(std::list<Componente>::iterator& it, std
     if(secuencia_if(it, end) || secuencia_while(it, end) || secuencia_switch(it, end)){
         return true;
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Instruccion", "if | while | switch | declaracion | return | break");
     return false;
 }
 bool analizador_sintactico::bloque(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -466,7 +428,6 @@ bool analizador_sintactico::bloque(std::list<Componente>::iterator& it, std::lis
     if(!bandera){
         capturar_error(it, "Bloque", "instruccion");
     }
-    // print_elemento(it, end);
     return bandera;
 }
 bool analizador_sintactico::secuencia_if(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -481,8 +442,6 @@ bool analizador_sintactico::secuencia_if(std::list<Componente>::iterator& it, st
             }
         }
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Secuencia if", "Condicional | Separador | bloque");
     return false;
 }
 bool analizador_sintactico::secuencia_while(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -491,15 +450,12 @@ bool analizador_sintactico::secuencia_while(std::list<Componente>::iterator& it,
             return true; // La instrucción tiene un bloque válido
         }
     }
-    // print_elemento(it, end);
-    capturar_error(it, "Secuencia while", "Estructura de Control | Separador | condicion | bloque");
     return false; // Si falta el bloque, la instrucción es inválida
 }
 // Inicio de validación de reglas
 std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens) {
     auto it = tokens.begin();   // Iterador al inicio de la lista
     auto end = tokens.end();    // Iterador al final de la lista
-    // print_elemento(it, end);
     if(it!=end){
         Componente componente = *it;
         if(componente.get_token() != "Fin de cadena"){
@@ -512,11 +468,9 @@ std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens)
     mensaje_error += "-------------------- Error de sintaxis --------------------\n";
     mensaje_error += "Error en la regla: " + regla + "\n";
     mensaje_error += "Se recibió el token: " + ultimo_token_recibido + "\n";
-                     mensaje_error += "Token esperado: " + token_esp + "\n";
+    mensaje_error += "Token esperado: " + token_esp + "\n";
     mensaje_error += "-----------------------------------------------------------\n";
 
-    // Puedes usar el mensaje de error en la interfaz
-    // Por ejemplo, mostrarlo en una ventana de diálogo o en la consola
     std::cout << mensaje_error;
 
     return mensaje_error;

@@ -2,7 +2,6 @@
 #include "./ui_mainwindow.h"
 #include <iostream>
 #include <cctype>
-#include "AnalizadorSintactico.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
