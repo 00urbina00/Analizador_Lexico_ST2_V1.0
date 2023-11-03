@@ -1,52 +1,79 @@
 #include "analizador_sintactico.h"
-
-
+// CONSTRUCTOR: -----------------------------------------------------------------------------------
 analizador_sintactico::analizador_sintactico(){
     regla = "";
     token_esp = "";
     ultimo_token_recibido = "";
 }
-
+// MANEJO DE ERRORES: -----------------------------------------------------------------------------
 void analizador_sintactico::capturar_error(std::list<Componente>::iterator& it, std::string rule, std::string token_esperado){
     Componente componente = *it;
     regla = rule;
     token_esp = token_esperado;
     ultimo_token_recibido = componente.get_token();
 }
-
+// DEBUGGING: -------------------------------------------------------------------------------------
 void analizador_sintactico::print_elemento(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(it!=end){
         Componente elemento = *it;
         std::cout<<"El elemento actual es: "<<elemento.get_lexema()<<",  token: "<<elemento.get_token()<<", Id: "<<elemento.get_id()<<std::endl;
     }
 }
-
-// REGLAS ESTATICAS: -------------------------------------------------------------------------------
-bool analizador_sintactico::directiva(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it == end || it->get_token() != "Hashtag") {
-        capturar_error(it, "Directiva", "Hashtag");
-        return false;
-    }
-    it++;  // Avanzar al siguiente token (Directiva)
-    if(it == end || it->get_token() != "Directiva") {
-        capturar_error(it, "Directiva", "Directiva");
-        return false;
-    }
-    it++;  // Avanzar al siguiente token (cadena)
-    if(it != end && it->get_token() == "cadena") {
-        it++;  // Avanzar al siguiente token
+// REGLAS PARA TOKENS BASICOS: --------------------------------------------------------------------
+bool analizador_sintactico::dos_puntos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if (it != end && it->get_token() == "Separador" && it->get_id() == 47){
         return true;
-    }else if(it != end && it->get_token() == "opRelacional" && it->get_id() == 18){ // '<'
-        it++;
-        while(it != end && it->get_token() != "opRelacional") {
-            it++;
-        }
-        if(it != end && it->get_token() == "opRelacional" && it->get_id() == 19) { // '>'
-            it++;
-            return true;
-        }
     }
-    capturar_error(it, "Directiva", "caden || <valor>");
+    capturar_error(it, "Dos puntos", "Separador");
+    return false;
+}
+
+bool analizador_sintactico::coma(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 26){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Coma", "Separador");
+    return false;
+}
+bool analizador_sintactico::punto_coma(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 25){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Punto y coma", "Separador");
+    return false;
+}
+bool analizador_sintactico::llave_izq(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 37){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Llave izquierda", "Separador");
+    return false;
+}
+bool analizador_sintactico::llave_der(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 38){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Llave derecha", "Separador");
+    return false;
+}
+bool analizador_sintactico::parentesis_izq(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 39){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Parentesis izquierdo", "Separador");
+    return false;
+}
+bool analizador_sintactico::parentesis_der(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Separador" && it->get_id() == 40){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Parentesis derecho", "Separador");
     return false;
 }
 bool analizador_sintactico::entero(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -152,6 +179,7 @@ bool analizador_sintactico::identificador(std::list<Componente>::iterator& it, s
     capturar_error(it, "Identificador", "id");
     return false;
 }
+// REGLAS PARA EXPRESIONES: -----------------------------------------------------------------------
 bool analizador_sintactico::valor(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(entero(it, end) || real(it, end) || cadena(it, end) ||
                       caracter(it, end) || verdadero(it, end) || falso(it, end)){
@@ -161,84 +189,40 @@ bool analizador_sintactico::valor(std::list<Componente>::iterator& it, std::list
     std::cout<<"No hubo un valor valido.."<<std::endl;
     return false;
 }
+// REGLAS DE DIRECTIVAS: --------------------------------------------------------------------------
+bool analizador_sintactico::directiva(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it == end || it->get_token() != "Hashtag") {
+        return false;
+    }
+    it++;  // Avanzar al siguiente token (Directiva)
+    if(it == end || it->get_token() != "Directiva") {
+        capturar_error(it, "Directiva", "Directiva");
+        return false;
+    }
+    it++;  // Avanzar al siguiente token (cadena)
+    if(it != end && it->get_token() == "cadena") {
+        it++;  // Avanzar al siguiente token
+        return true;
+    }else if(it != end && it->get_token() == "opRelacional" && it->get_id() == 18){ // '<'
+        it++;
+        while(it != end && it->get_token() != "opRelacional") {
+            it++;
+        }
+        if(it != end && it->get_token() == "opRelacional" && it->get_id() == 19) { // '>'
+            it++;
+            return true;
+        }
+    }
+    capturar_error(it, "Directiva", "caden || <valor>");
+    return false;
+}
+// REGLAS DE ASIGNACION: --------------------------------------------------------------------------
 bool analizador_sintactico::op_igual(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(it != end && it->get_token() == "opRelacional" && it->get_id() == 29){
         it++;
         return true;
     }
     capturar_error(it, "Operador Igual", "opRelacional");
-    return false;
-}
-bool analizador_sintactico::condicional_if(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Condicional" && it->get_id() == 30){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Condicional if", "Condicional");
-    return false;
-}
-bool analizador_sintactico::condicional_else(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Condicional" && it->get_id() == 31){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Condicional if", "Condicional");
-    return false;
-}
-bool analizador_sintactico::punto_coma(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 25){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Punto y coma", "Separador");
-    return false;
-}
-bool analizador_sintactico::llave_izq(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 37){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Llave izquierda", "Separador");
-    return false;
-}
-bool analizador_sintactico::llave_der(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 38){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Llave derecha", "Separador");
-    return false;
-}
-bool analizador_sintactico::parentesis_izq(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 39){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Parentesis izquierdo", "Separador");
-    return false;
-}
-bool analizador_sintactico::parentesis_der(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 40){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Parentesis derecho", "Separador");
-    return false;
-}
-bool analizador_sintactico::ope_while(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Estructura de Control" && it->get_id() == 32){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Operador while", "Estructura de Control");
-    return false;
-}
-bool analizador_sintactico::ope_switch(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Estructura de Control" && it->get_id() == 34){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Operador switch", "Estructura de Control");
     return false;
 }
 bool analizador_sintactico::asignacion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end) {
@@ -260,6 +244,62 @@ bool analizador_sintactico::asignacion(std::list<Componente>::iterator& it, std:
     }
     // Si no se encontró un valor válido, entonces la asignación es incorrecta
     return false;
+}
+// REGLAS PARA COMPONENTES DE ESTRUCTURAS: ---------------------------------------------------------
+bool analizador_sintactico::condicional_if(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Condicional" && it->get_id() == 30){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Condicional if", "Condicional");
+    return false;
+}
+bool analizador_sintactico::condicional_else(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Condicional" && it->get_id() == 31){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Condicional if", "Condicional");
+    return false;
+}
+bool analizador_sintactico::ope_while(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Estructura de Control" && it->get_id() == 32){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Operador while", "Estructura de Control");
+    return false;
+}
+bool analizador_sintactico::ope_switch(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(it != end && it->get_token() == "Estructura de Control" && it->get_id() == 34){
+        it++;
+        return true;
+    }
+    capturar_error(it, "Operador switch", "Estructura de Control");
+    return false;
+}
+
+// REGLAS DE INSTRUCCIONES: ------------------------------------------------------------------------
+bool analizador_sintactico::instruccion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(declarar_variable(it, end) || retorno(it, end) || romper(it, end) || asignacion(it, end)){
+        if(punto_coma(it, end)){
+            return true;
+        }
+    }
+    if(secuencia_if(it, end) || secuencia_while(it, end) || secuencia_switch(it, end)){
+        return true;
+    }
+    return false;
+}
+bool analizador_sintactico::bloque(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    bool bandera = false;
+    while(instruccion(it, end)) {
+        bandera = true;
+    }
+    if(!bandera){
+        capturar_error(it, "Bloque", "instruccion");
+    }
+    return bandera;
 }
 bool analizador_sintactico::declarar_variable(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     // Verificar si el primer token no es un tipo
@@ -297,16 +337,9 @@ bool analizador_sintactico::retorno(std::list<Componente>::iterator& it, std::li
         return false;
     }
     return false;
+}
 
-}
-bool analizador_sintactico::coma(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(it != end && it->get_token() == "Separador" && it->get_id() == 26){
-        it++;
-        return true;
-    }
-    capturar_error(it, "Coma", "Separador");
-    return false;
-}
+// REGLAS DE FUNCIONES: ----------------------------------------------------------------------------
 bool analizador_sintactico::parametro(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(tipo(it, end)){
         if(identificador(it, end)){
@@ -315,20 +348,31 @@ bool analizador_sintactico::parametro(std::list<Componente>::iterator& it, std::
     }
     return false;
 }
-bool analizador_sintactico::dos_puntos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if (it != end && it->get_token() == "Separador" && it->get_id() == 47){
-        return true;
+bool analizador_sintactico::funcion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    // Verificar si hay un tipo seguido de un identificador
+    if (tipo(it, end) && identificador(it, end)) {
+        // Procesar paréntesis izquierdo
+        if (parentesis_izq(it, end)) {
+            // Verificar si hay parámetros (pueden ser 0 o más)
+            while (parametro(it, end)) {
+                // Si se encuentra una coma, procesar otro parámetro
+                if (!coma(it, end)) {
+                    break; // Salir si no se encuentra una coma
+                }
+            }
+            // Procesar paréntesis derecho
+            if (parentesis_der(it, end)) {
+                // Procesar llave izquierda, bloque y llave derecha
+                if (llave_izq(it, end) && bloque(it, end) && llave_der(it, end)) {
+                    return true; // La función se procesó correctamente
+                }
+            }
+        }
     }
-    capturar_error(it, "Dos puntos", "Separador");
-    return false;
+    return false; // La estructura no coincide con la regla de función
 }
-bool analizador_sintactico::defecto(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if (it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 48){
-        return true;
-    }
-    capturar_error(it, "Defectos", "Palabra Reservada");
-    return false;
-}
+// REGLAS DE ESTRUCTURAS
+// REGLAS DE ESTRUCTURA SWITCH: --------------------------------------------------------------------
 bool analizador_sintactico::caso(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     // 'case' valor ':' bloque 'break' ';'
     if(it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 46){ // 'case'
@@ -343,6 +387,13 @@ bool analizador_sintactico::caso(std::list<Componente>::iterator& it, std::list<
         capturar_error(it, "Case", "Palabra Reservada");
         return false;
     }
+    return false;
+}
+bool analizador_sintactico::defecto(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if (it != end && it->get_token() == "Palabra Reservada" && it->get_id() == 48){
+        return true;
+    }
+    capturar_error(it, "Defectos", "Palabra Reservada");
     return false;
 }
 bool analizador_sintactico::casos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
@@ -368,7 +419,6 @@ bool analizador_sintactico::casos(std::list<Componente>::iterator& it, std::list
     // El bucle terminará cuando no se encuentren más casos válidos
     return casos_validos; // Devolver true si se encontró al menos un caso válido
 }
-
 bool analizador_sintactico::secuencia_switch(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     // 'switch' '(' identificador ')' '{' casos '}'
     if (ope_switch(it, end)) { // 'switch'
@@ -384,51 +434,21 @@ bool analizador_sintactico::secuencia_switch(std::list<Componente>::iterator& it
     return false;
 
 }
-bool analizador_sintactico::funcion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if (tipo(it, end) && identificador(it, end) && parentesis_izq(it, end)) {
-        // Procesar al menos un parámetro
-        if (parametro(it, end)) {
-            // Usar un bucle while para procesar múltiples parámetros
-            while(coma(it, end)) {
-                if (!parametro(it, end)) {
-                    return false; // Error en la sintaxis del parámetro
-                }
-            }
-            if(parentesis_der(it, end) && llave_izq(it, end) && bloque(it, end) && llave_der(it, end)) {
-                return true; // La función se ha procesado correctamente
-            }
-        }else if(parentesis_der(it, end) && llave_izq(it, end) && bloque(it, end) && llave_der(it, end)) {
-            return true;
+// REGLAS PARA ESTRUCTURA WHILE: -------------------------------------------------------------------
+bool analizador_sintactico::secuencia_while(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
+    if(ope_while(it, end) && parentesis_izq(it, end) && condicion(it, end) && parentesis_der(it, end) && llave_izq(it, end)){
+        if(bloque(it, end) && llave_der(it, end)){
+            return true; // La instrucción tiene un bloque válido
         }
     }
-    return false; // La estructura no coincide con la regla de función
+    return false; // Si falta el bloque, la instrucción es inválida
 }
+// REGLAS PARA CONDICIONALES: ----------------------------------------------------------------------
 bool analizador_sintactico::condicion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if((identificador(it, end) || valor(it, end)) && ope_relacional(it, end) && (identificador(it, end) || valor(it, end))){
         return true;
     }
     return false;
-}
-bool analizador_sintactico::instruccion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(declarar_variable(it, end) || retorno(it, end) || romper(it, end) || asignacion(it, end)){
-        if(punto_coma(it, end)){
-            return true;
-        }
-    }
-    if(secuencia_if(it, end) || secuencia_while(it, end) || secuencia_switch(it, end)){
-        return true;
-    }
-    return false;
-}
-bool analizador_sintactico::bloque(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    bool bandera = false;
-    while(instruccion(it, end)) {
-        bandera = true;
-    }
-    if(!bandera){
-        capturar_error(it, "Bloque", "instruccion");
-    }
-    return bandera;
 }
 bool analizador_sintactico::secuencia_if(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     if(condicional_if(it,end) && parentesis_izq(it,end) && condicion(it, end) && parentesis_der(it,end) && llave_izq(it,end)){
@@ -444,14 +464,7 @@ bool analizador_sintactico::secuencia_if(std::list<Componente>::iterator& it, st
     }
     return false;
 }
-bool analizador_sintactico::secuencia_while(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
-    if(ope_while(it, end) && parentesis_izq(it, end) && condicion(it, end) && parentesis_der(it, end) && llave_izq(it, end)){
-        if(bloque(it, end) && llave_der(it, end)){
-            return true; // La instrucción tiene un bloque válido
-        }
-    }
-    return false; // Si falta el bloque, la instrucción es inválida
-}
+
 // Inicio de validación de reglas
 std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens) {
     auto it = tokens.begin();   // Iterador al inicio de la lista
@@ -459,8 +472,17 @@ std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens)
     if(it!=end){
         Componente componente = *it;
         if(componente.get_token() != "Fin de cadena"){
-            if(instruccion(it, end) || directiva(it, end) || funcion(it, end)){
-                return "La entrada proporcionada es valida!!!";
+            if(instruccion(it, end)){
+                // La entrada es una instrucción válida
+                return "La entrada es valida sintacticamente.";
+            }
+            else if(directiva(it, end)){
+                // La entrada es una directiva válida
+                return "La entrada es valida sintacticamente.";
+            }
+            else if(funcion(it, end)){
+                // La entrada es una función válida
+                return "La entrada es valida sintacticamente.";
             }
         }
     }

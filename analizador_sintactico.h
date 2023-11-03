@@ -7,6 +7,15 @@
 #include <list>
 #include "componente.h"
 
+class ErrorSintactico : public std::exception{
+public:
+    ErrorSintactico(const std::string& mensaje) : mensaje_(mensaje) {}
+    const char* what() const noexcept override{
+        return mensaje_.c_str();
+    }
+private:
+    std::string mensaje_;
+};
 
 class analizador_sintactico
 {
