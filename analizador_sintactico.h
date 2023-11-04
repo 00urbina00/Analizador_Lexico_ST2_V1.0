@@ -64,6 +64,8 @@ public:
     bool defecto(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
     bool casos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
     bool ope_switch(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
+    bool ope_case(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
+    bool llamada_funcion(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
 
     void capturar_error(std::list<Componente>::iterator& it, std::string regla, std::string token_esperado);
 

@@ -1,0 +1,22 @@
+# ninja log v5
+4	732	0	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/CMakeFiles/cmake.verify_globs	10c43ddc90964c3
+14	1282	7207693649131788	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/analizador_lexico_autogen/timestamp	dcc9dd2046b73d6f
+14	1282	7207693649131788	analizador_lexico_autogen/timestamp	dcc9dd2046b73d6f
+14	1282	7207693649131788	analizador_lexico_autogen/mocs_compilation.cpp	dcc9dd2046b73d6f
+1306	2114	7207693661745212	CMakeFiles/analizador_lexico.dir/analizador_sintactico.cpp.obj	2b3154e3c69b02f8
+710	2125	7207516706689994	build.ninja	aef99989d63fd754
+14	1282	7207693649131788	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/analizador_lexico_autogen/mocs_compilation.cpp	dcc9dd2046b73d6f
+3663	4581	7207515690516100	CMakeFiles/analizador_lexico.dir/analizador_lexico.cpp.obj	ee4832d9e5f2ab44
+3674	5109	7207515695790974	CMakeFiles/analizador_lexico.dir/componente.cpp.obj	d1b9d9f8af4dba24
+1297	4261	7207693683221467	CMakeFiles/analizador_lexico.dir/main.cpp.obj	1869137c41a926ce
+3683	11016	7207515754861259	CMakeFiles/analizador_lexico.dir/plaintextedit.cpp.obj	39c607a3da9eb864
+1283	7865	7207693719258743	CMakeFiles/analizador_lexico.dir/analizador_lexico_autogen/mocs_compilation.cpp.obj	f23d03b033bdd71b
+1289	7995	7207693720546051	CMakeFiles/analizador_lexico.dir/mainwindow.cpp.obj	3a407313c9506546
+7995	8545	7207693726016889	analizador_lexico.exe	e954c1fed6563cc2
+6	682	0	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/CMakeFiles/cmake.verify_globs	10c43ddc90964c3
+13	539	7207702797259087	analizador_lexico_autogen/timestamp	dcc9dd2046b73d6f
+13	539	7207702797259087	analizador_lexico_autogen/mocs_compilation.cpp	dcc9dd2046b73d6f
+13	539	7207702797259087	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/analizador_lexico_autogen/timestamp	dcc9dd2046b73d6f
+13	539	7207702797259087	D:/edurb/Escritorio/Escuela/7mo Semestre/SSPTLII/Programas Git/Analizador_Lexico_ST2_V1/cmake-build-debug/analizador_lexico_autogen/mocs_compilation.cpp	dcc9dd2046b73d6f
+565	1252	7207702804392720	CMakeFiles/analizador_lexico.dir/analizador_sintactico.cpp.obj	2b3154e3c69b02f8
+1252	1783	7207702809658809	analizador_lexico.exe	e954c1fed6563cc2
