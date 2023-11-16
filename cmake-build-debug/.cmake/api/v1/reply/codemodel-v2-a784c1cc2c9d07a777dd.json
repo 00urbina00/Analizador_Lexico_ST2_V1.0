@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "analizador_lexico::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-analizador_lexico-Debug-f099afea813e0bf5e88b.json",
+					"jsonFile" : "target-analizador_lexico-Debug-47e40dfe9b0a21d7190b.json",
 					"name" : "analizador_lexico",
 					"projectIndex" : 0
 				},
@@ -74,6 +74,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 3
+		"minor" : 5
 	}
 }
