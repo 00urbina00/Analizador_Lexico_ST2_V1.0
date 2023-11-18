@@ -1,13 +1,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <iostream>
-#include <cctype>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     lexical = analizador_lexico();
+    checker = analizador_semantico();
     ui->setupUi(this);
 
     connect(ui->btn_analizar, SIGNAL(clicked()), this, SLOT(analizar_lexicamente()));
@@ -40,16 +40,16 @@ void MainWindow::analizar_lexicamente(){
     componentes = lexical.analizar_lexicamente(cadena);  // Se inicializa componentes con los analizados
     mostrar_elementos(componentes);
 }
-void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recibe la lista de componentes del analizador lex
+void MainWindow::mostrar_elementos(std::list<Componente> cpts){  // Recibe la lista de componentes del analizador lex
     // Establece el número de filas en la tabla
-    ui->tw_componentes->setRowCount(componentes.size());
+    ui->tw_componentes->setRowCount(cpts.size());
 
     // Establece el número de columnas en la tabla
     int numColumnas = 4; // Número de columnas, incluyendo la nueva columna
     ui->tw_componentes->setColumnCount(numColumnas);
-    auto it = componentes.begin();
+    auto it = cpts.begin();
     int fila = 0;
-    while (it != componentes.end()) {
+    while (it != cpts.end()) {
         Componente componente = *it;
 
         // Asigna los valores a las celdas de las primeras tres columnas
@@ -72,9 +72,15 @@ void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recib
     ui->tw_componentes->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 void MainWindow::validar_asignacion(){
-    std::string salida = syntax.validar_inicio(componentes);
+    std::string salida = syntax.validar_inicio(componentes);    // Salida del sintactico
     // Convertir el std::string a QString
     QString qSalida = QString::fromStdString(salida);
+    // ui->pte_segundo->setPlainText(qSalida);
+    // Se inicializa el semantico con componentes del sintactico
+    checker.set_componentes(syntax.obtener_lista_componentes()); // Se inicializa el semantico con componentes del sintactico
+    std::string salida2 = checker.analizar_declaraciones();   // Se analizan las declaraciones
+    // Convertir el std::string a QString
+    qSalida += QString::fromStdString(salida2);
     ui->pte_segundo->setPlainText(qSalida);
 }
 

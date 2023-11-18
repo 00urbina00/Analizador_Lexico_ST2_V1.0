@@ -704,10 +704,11 @@ std::string analizador_sintactico::mostrar_tokens_en_lista(){
     for (auto& r : reglas_validas) {
         info_concatenada += r.obtener_info() + "\n"; // Puedes cambiar el formato según tu necesidad
     }
-    info_concatenada += "\nReglas invalidas:\n";
+    /* info_concatenada += "\nReglas invalidas:\n";
     for (auto& r : reglas_invalidas) {
         info_concatenada += r.obtener_info() + "\n"; // Puedes cambiar el formato según tu necesidad
     }
+     */
     return info_concatenada;
 }
 // Inicio de validación de reglas
@@ -719,7 +720,7 @@ std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens)
         Componente componente = *it;
         if(componente.get_token() != "Fin de cadena" && instruccion(it, end)){
             // std::cout << mostrar_tokens_en_lista(lista_componentes)<< std::endl;
-            return "La entrada es valida sintacticamente. \n"  + mostrar_tokens_en_lista();
+            return "La entrada es valida sintacticamente. \n";// \n"  + mostrar_tokens_en_lista();
         }
     }
     std::string mensaje_error;
@@ -732,5 +733,8 @@ std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens)
     // std::cout << mostrar_tokens_en_lista(lista_componentes)<<std::endl;
 
     // return mensaje_error;
-    return mensaje_error + mostrar_tokens_en_lista();
+    return mensaje_error + "\n";// + mostrar_tokens_en_lista();
+}
+std::list<Componente> analizador_sintactico::obtener_lista_componentes(){
+    return lista_componentes;
 }

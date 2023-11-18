@@ -78,6 +78,8 @@ public:
 
     static Regla crea_regla(std::string rl, int idx);
 
+    std::list<Componente> obtener_lista_componentes();
+
 private:
     std::string regla;
     std::string token_esp;

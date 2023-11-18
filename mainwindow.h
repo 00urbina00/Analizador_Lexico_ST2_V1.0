@@ -16,7 +16,8 @@
 // Procesamiento
 #include "componente.h"
 #include "analizador_lexico.h"
-#include "Analizador_sintactico.h"
+#include "analizador_sintactico.h"
+#include "analizador_semantico.h"
 
 #include <vector>
 QT_BEGIN_NAMESPACE
@@ -46,6 +47,7 @@ signals:
 private:
     analizador_lexico lexical;
     analizador_sintactico syntax;
+    analizador_semantico checker;
     Ui::MainWindow *ui;
     std::list<Componente> componentes;
 
