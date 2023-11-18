@@ -47,7 +47,7 @@ void MainWindow::mostrar_elementos(std::list<Componente> componentes){  // Recib
     // Establece el número de columnas en la tabla
     int numColumnas = 4; // Número de columnas, incluyendo la nueva columna
     ui->tw_componentes->setColumnCount(numColumnas);
-    std::list<Componente>::iterator it = componentes.begin();
+    auto it = componentes.begin();
     int fila = 0;
     while (it != componentes.end()) {
         Componente componente = *it;

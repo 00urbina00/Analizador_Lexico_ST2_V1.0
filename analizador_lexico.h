@@ -24,13 +24,13 @@ private:
         REAL,
         FINAL
     };
-    bool issymbol(char caracter);
-    bool isoperator(char caracter);
-    bool isrelat(char caracter);
+    static bool issymbol(char caracter);
+    static bool isoperator(char caracterstatic );
+    static bool isrelat(char caracter);
 
-    std::string symbol_token(char simbolo);
-    std::string arithmetic_ope_token(char simbolo);
-    std::string relational_ope_token(char simbolo);
+    static std::string symbol_token(char simbolostatic);
+    static std::string arithmetic_ope_token(char simbolostatic);
+    static std::string relational_ope_token(char simbolo);
 
     std::list<Componente> componentes;
 };

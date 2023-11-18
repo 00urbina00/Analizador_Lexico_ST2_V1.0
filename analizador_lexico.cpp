@@ -46,9 +46,11 @@ std::list<Componente> analizador_lexico::analizar_lexicamente(std::string cadena
     cadena += "$";
     int indice = 0;
     int estado = INICIAL;
+    std::string lexema;
+    std::string token;
     while(indice <= (cadena.length()-1) && estado == INICIAL){  // Recorre la cadena caracter a caracter
-        std::string lexema = "";
-        std::string token = "error";
+        lexema = "";
+        token = "error";
         while(indice <= (cadena.length()-1) && estado != FINAL){   // Recorre las posibilidades para cada caracter
             switch(estado){
                 case INICIAL:

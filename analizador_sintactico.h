@@ -5,24 +5,29 @@
 #include <string>
 #include <cctype>
 #include <list>
+#include <utility>
 #include "componente.h"
+#include <stack>
+#include <functional>
 
-class ErrorSintactico : public std::exception{
+class Regla{
 public:
-    ErrorSintactico(const std::string& mensaje) : mensaje_(mensaje) {}
-    const char* what() const noexcept override{
-        return mensaje_.c_str();
+    Regla(std::string rl, int idx) : regla(std::move(rl)), id(idx) {}
+    std::string regla;
+    int id;
+    std::string obtener_info(){
+        return "Nombre: " + regla + ", ID: " + std::to_string(id);
     }
-private:
-    std::string mensaje_;
 };
+
 
 class analizador_sintactico
 {
 public:
     analizador_sintactico();
     std::string validar_inicio(std::list<Componente>& tokens);
-    void print_elemento(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
+    static void print_elemento(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
+
     bool directiva(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
     bool entero(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
     bool real(std::list<Componente>::iterator& it, std::list<Componente>::iterator end);
@@ -69,10 +74,18 @@ public:
 
     void capturar_error(std::list<Componente>::iterator& it, std::string regla, std::string token_esperado);
 
+    std::string mostrar_tokens_en_lista();
+
+    static Regla crea_regla(std::string rl, int idx);
+
 private:
     std::string regla;
     std::string token_esp;
     std::string ultimo_token_recibido;
+    std::list<Componente> lista_componentes;
+    std::list<Regla> reglas_validas;
+    std::list<Regla> reglas_invalidas;
+    int id_regla;
 };
 
 #endif // ANALIZADOR_SINTACTICO_H
