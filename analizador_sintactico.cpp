@@ -604,6 +604,7 @@ bool analizador_sintactico::defecto(std::list<Componente>::iterator& it, std::li
 bool analizador_sintactico::casos(std::list<Componente>::iterator& it, std::list<Componente>::iterator end){
     auto it_aux = it; // Respaldar estado del iterador
     bool casos_validos = false;  // Variable para verificar si se ha encontrado al menos un caso válido
+    auto pila_aux = lista_componentes; // Respaldar estado de la pila
     while(it != end) {
         if(caso(it, end)) {
             casos_validos = true; // Se encontró al menos un caso válido
@@ -620,6 +621,7 @@ bool analizador_sintactico::casos(std::list<Componente>::iterator& it, std::list
         }
     }
     if(!casos_validos){
+        lista_componentes = pila_aux; // Restaurar estado de la pila
         it = it_aux; // Restaurar estado del iterador
         // reglas_invalidas.emplace_back(crea_regla("Casos - case | default"));
     }
@@ -716,24 +718,41 @@ std::string analizador_sintactico::validar_inicio(std::list<Componente>& tokens)
     auto it = tokens.begin();   // Iterador al inicio de la lista
     auto end = tokens.end();    // Iterador al final de la lista
     lista_componentes.clear();   // Limpiar la pila de componentes
-    if(it!=end){
+    bool bandera = false;
+    auto it_backup = it;  // Respaldar el iterador inicial
+    while(it!=end){
         Componente componente = *it;
-        if(componente.get_token() != "Fin de cadena" && instruccion(it, end)){
-            // std::cout << mostrar_tokens_en_lista(lista_componentes)<< std::endl;
-            return "La entrada es valida sintacticamente. \n";// \n"  + mostrar_tokens_en_lista();
+        if (componente.get_token() != "Fin de cadena") {
+            if (instruccion(it, end)) {
+                // Regla cumplida, realizar acciones necesarias
+                bandera = true;
+                it_backup = it;  // Actualizar el iterador de respaldo
+            } else {
+                // Regla no cumplida, avanzar al siguiente componente
+                ++it;
+            }
+        } else {
+            // Fin de cadena, avanzar al siguiente componente
+            ++it;
         }
     }
-    std::string mensaje_error;
-    mensaje_error += "-------------------- Error de sintaxis --------------------\n";
-    mensaje_error += "Error en la regla:   " + regla + "\n";
-    mensaje_error += "Token esperado:      " + token_esp + "\n";
-    mensaje_error += "Se recibió el token: " + ultimo_token_recibido + "\n";
-    mensaje_error += "-----------------------------------------------------------\n";
 
-    // std::cout << mostrar_tokens_en_lista(lista_componentes)<<std::endl;
+// Restaurar el iterador al último punto de respaldo
+    it = it_backup;
+    if(bandera) {
+        return "La entrada es valida sintacticamente. \n";// \n"  + mostrar_tokens_en_lista();
+    } else {
+        std::string mensaje_error;
+        mensaje_error += "-------------------- Error de sintaxis --------------------\n";
+        mensaje_error += "Error en la regla:   " + regla + "\n";
+        mensaje_error += "Token esperado:      " + token_esp + "\n";
+        mensaje_error += "Se recibió el token: " + ultimo_token_recibido + "\n";
+        mensaje_error += "-----------------------------------------------------------\n";
 
-    // return mensaje_error;
-    return mensaje_error + "\n";// + mostrar_tokens_en_lista();
+        // std::cout << mostrar_tokens_en_lista(lista_componentes)<<std::endl;
+
+        return mensaje_error + "\n";// + mostrar_tokens_en_lista();
+    }
 }
 std::list<Componente> analizador_sintactico::obtener_lista_componentes(){
     return lista_componentes;
